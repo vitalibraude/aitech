@@ -691,19 +691,23 @@ function proceedWithFolderTemplate() {
   
   closeModal('folderModal');
   
-  if (selectedFolderTemplate === 'custom') {
-    // Initialize with default folders for customization
+  // Initialize folder structure based on selected template
+  if (selectedFolderTemplate === 'project') {
+    customFolderStructure = [...folderTemplates.project];
+  } else if (selectedFolderTemplate === 'board') {
+    customFolderStructure = [...folderTemplates.board];
+  } else {
+    // Custom - start with default folders
     customFolderStructure = [
       'Administrative',
       'Documentation',
       'Correspondence',
       'Reports'
     ];
-    showCustomFolderStructureModal();
-  } else {
-    // Create folder structure with predefined template
-    createFolderStructure(structureName, selectedFolderTemplate);
   }
+  
+  // Always show the customization modal so user can edit before creating
+  showCustomFolderStructureModal();
 }
 
 function createFolderStructure(structureName, templateType) {
