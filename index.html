@@ -70,7 +70,8 @@
       <button class="qa-btn primary" onclick="showModal('uploadModal')"><i class="fas fa-upload"></i>Upload Document</button>
       <button class="qa-btn" onclick="window.location='search.html'"><i class="fas fa-search"></i>Advanced Search</button>
       <button class="qa-btn" onclick="window.location='workflow.html'"><i class="fas fa-pen-fancy"></i>Request Signature</button>
-      <button class="qa-btn" onclick="showModal('createProjectModal')"><i class="fas fa-folder-plus"></i>Create New Project</button>
+      <button class="qa-btn" onclick="showModal('folderModal')"><i class="fas fa-folder-plus"></i>Create Folder from Template</button>
+      <button class="qa-btn" onclick="showModal('createProjectModal')"><i class="fas fa-rocket"></i>Create New Project</button>
       <button class="qa-btn" onclick="window.location='library.html'"><i class="fas fa-folder-open"></i>Document Library</button>
     </div>
 
@@ -269,47 +270,60 @@
   </div>
 </div>
 
-<!-- Folder Template Modal -->
+<!-- Folder Template Modal - Step 1: Select Template -->
 <div class="modal-overlay" id="folderModal" onclick="closeModal('folderModal')">
-  <div class="modal" onclick="event.stopPropagation()">
+  <div class="modal" onclick="event.stopPropagation()" style="max-width:550px">
     <div class="modal-header">
       <h3><i class="fas fa-folder-plus"></i> Create Folder Structure from Template</h3>
       <button onclick="closeModal('folderModal')"><i class="fas fa-times"></i></button>
     </div>
     <div class="modal-body">
       <div class="form-group">
-        <label>Template</label>
-        <select>
-          <option>Client Project – Standard</option>
-          <option>Internal Project</option>
-          <option>Contract / Agreement</option>
-          <option>Procurement Process</option>
-        </select>
+        <label>Project / Board Name <span style="color:var(--danger)">*</span></label>
+        <input type="text" id="newFolderStructureName" placeholder="e.g., SpaceX Board">
       </div>
       <div class="form-group">
-        <label>Board / Project Name</label>
-        <input type="text" placeholder="e.g., SpaceX Project">
-      </div>
-      <div class="form-group">
-        <label>Client Name</label>
-        <input type="text" placeholder="Enter client name...">
-      </div>
-      <div class="folder-preview">
-        <p style="font-size:0.8rem;font-weight:600;color:#555;margin-bottom:8px;">Folder Preview</p>
-        <div class="folder-tree">
-          <div class="tree-item"><i class="fas fa-folder"></i> 📁 SpaceX Project</div>
-          <div class="tree-item indent"><i class="fas fa-folder"></i> 01_Base_Documents</div>
-          <div class="tree-item indent"><i class="fas fa-folder"></i> 02_Contracts</div>
-          <div class="tree-item indent"><i class="fas fa-folder"></i> 03_Work_Plans</div>
-          <div class="tree-item indent"><i class="fas fa-folder"></i> 04_Correspondence</div>
-          <div class="tree-item indent"><i class="fas fa-folder"></i> 05_Reports</div>
-          <div class="tree-item indent"><i class="fas fa-folder"></i> 06_Approvals_Signatures</div>
+        <label>Select Template</label>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:10px">
+          <label class="project-type-option" onclick="selectFolderTemplate('project')">
+            <input type="radio" name="folderTemplate" value="project">
+            <div class="project-type-card">
+              <div style="font-weight:600;font-size:0.95rem;margin-bottom:4px">
+                <i class="fas fa-briefcase"></i> Project Template (Appendix A)
+              </div>
+              <div style="font-size:0.78rem;color:#666">
+                Full project structure with Administrative & QA, Board sections, and deliverables
+              </div>
+            </div>
+          </label>
+          <label class="project-type-option" onclick="selectFolderTemplate('board')">
+            <input type="radio" name="folderTemplate" value="board">
+            <div class="project-type-card">
+              <div style="font-weight:600;font-size:0.95rem;margin-bottom:4px">
+                <i class="fas fa-microchip"></i> Board Template (Appendix B)
+              </div>
+              <div style="font-size:0.78rem;color:#666">
+                Hardware board structure with PLD, PCB, Mechanical, Electrical Schematics, etc.
+              </div>
+            </div>
+          </label>
+          <label class="project-type-option" onclick="selectFolderTemplate('custom')">
+            <input type="radio" name="folderTemplate" value="custom">
+            <div class="project-type-card">
+              <div style="font-weight:600;font-size:0.95rem;margin-bottom:4px">
+                <i class="fas fa-sliders-h"></i> Custom - Build Your Own
+              </div>
+              <div style="font-size:0.78rem;color:#666">
+                Define your own folder structure from scratch
+              </div>
+            </div>
+          </label>
         </div>
       </div>
     </div>
     <div class="modal-footer">
       <button class="btn-cancel" onclick="closeModal('folderModal')">Cancel</button>
-      <button class="btn-primary">Create Folders</button>
+      <button class="btn-primary" onclick="proceedWithFolderTemplate()">Next</button>
     </div>
   </div>
 </div>
@@ -393,6 +407,31 @@
     <div class="modal-footer">
       <button class="btn-cancel" onclick="closeModal('customFoldersModal')">Back</button>
       <button class="btn-primary" onclick="createProjectFolders()">Create Project</button>
+    </div>
+  </div>
+</div>
+
+<!-- Custom Folder Structure Modal - For Template "Other" Option -->
+<div class="modal-overlay" id="customFolderStructureModal" onclick="closeModal('customFolderStructureModal')">
+  <div class="modal" onclick="event.stopPropagation()" style="max-width:700px">
+    <div class="modal-header">
+      <h3><i class="fas fa-sliders-h"></i> Customize Folder Structure</h3>
+      <button onclick="closeModal('customFolderStructureModal')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <p style="font-size:0.88rem;color:#666">Add or remove folders for your structure</p>
+        <button class="qa-btn" onclick="addCustomStructureFolder()" style="padding:6px 14px;font-size:0.8rem">
+          <i class="fas fa-plus"></i> Add Folder
+        </button>
+      </div>
+      <div id="customStructureFolderList" style="max-height:400px;overflow-y:auto;border:1px solid #e0e0e0;border-radius:8px;padding:12px">
+        <!-- Folders will be dynamically added here -->
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal('customFolderStructureModal')">Back</button>
+      <button class="btn-primary" onclick="createCustomFolderStructure()">Create Structure</button>
     </div>
   </div>
 </div>
@@ -587,6 +626,152 @@ function createProjectFolders() {
   setTimeout(() => {
     showToast(`Project "${projectName}" created successfully!`, 'success');
     console.log('Created custom folders:', customFolders);
+  }, 1500);
+}
+
+// ========================================
+// Folder Template Modal Functions
+// ========================================
+
+let selectedFolderTemplate = null;
+let customFolderStructure = [];
+
+// Folder templates based on attachments
+const folderTemplates = {
+  'project': [
+    'Administrative & QA',
+    'Compliance Matrix',
+    'Contract-SOW-Spec',
+    'COR',
+    'Correspondence',
+    'Deliveries',
+    'Design Reviews',
+    'Purchase order',
+    'Risk Management',
+    'Schedule',
+    'Specification',
+    'Task List',
+    'Technical Memos'
+  ],
+  'board': [
+    'Administrative & QA',
+    'Analyses',
+    'ATP-QTP-FTP',
+    'Correspondence',
+    'Electrical Schematics',
+    'LAYOUT',
+    'Mechanical Drawing',
+    'PCB FAB FILES',
+    'PLD',
+    'Versions',
+    'Product design notes',
+    'PRODUCTION DOCUMENTATION'
+  ]
+};
+
+function selectFolderTemplate(template) {
+  selectedFolderTemplate = template;
+  document.querySelectorAll('input[name="folderTemplate"]').forEach(radio => {
+    radio.checked = radio.value === template;
+  });
+}
+
+function proceedWithFolderTemplate() {
+  const structureName = document.getElementById('newFolderStructureName').value.trim();
+  
+  if (!structureName) {
+    showToast('Please enter a project/board name', 'error');
+    return;
+  }
+  
+  if (!selectedFolderTemplate) {
+    showToast('Please select a template', 'error');
+    return;
+  }
+  
+  closeModal('folderModal');
+  
+  if (selectedFolderTemplate === 'custom') {
+    // Initialize with default folders for customization
+    customFolderStructure = [
+      'Administrative',
+      'Documentation',
+      'Correspondence',
+      'Reports'
+    ];
+    showCustomFolderStructureModal();
+  } else {
+    // Create folder structure with predefined template
+    createFolderStructure(structureName, selectedFolderTemplate);
+  }
+}
+
+function createFolderStructure(structureName, templateType) {
+  const folders = folderTemplates[templateType];
+  const templateName = templateType === 'project' ? 'Project Template' : 'Board Template';
+  showToast(`Creating "${structureName}" with ${templateName} (${folders.length} folders)...`, 'info');
+  
+  setTimeout(() => {
+    showToast(`Folder structure "${structureName}" created successfully!`, 'success');
+    console.log('Created folder structure:', structureName, folders);
+  }, 1500);
+}
+
+function showCustomFolderStructureModal() {
+  const modal = document.getElementById('customFolderStructureModal');
+  const folderList = document.getElementById('customStructureFolderList');
+  
+  // Clear and populate folder list
+  folderList.innerHTML = '';
+  customFolderStructure.forEach((folder, index) => {
+    addFolderToStructureList(folder, index);
+  });
+  
+  modal.style.display = 'flex';
+}
+
+function addFolderToStructureList(folderName, index) {
+  const folderList = document.getElementById('customStructureFolderList');
+  const folderItem = document.createElement('div');
+  folderItem.className = 'custom-folder-item';
+  folderItem.innerHTML = `
+    <i class="fas fa-folder" style="color:#e8a020"></i>
+    <input type="text" value="${folderName}" onchange="updateStructureFolderName(${index}, this.value)">
+    <button onclick="removeStructureFolder(${index})">
+      <i class="fas fa-trash"></i> Remove
+    </button>
+  `;
+  folderList.appendChild(folderItem);
+}
+
+function addCustomStructureFolder() {
+  customFolderStructure.push('New Folder');
+  showCustomFolderStructureModal();
+}
+
+function removeStructureFolder(index) {
+  customFolderStructure.splice(index, 1);
+  showCustomFolderStructureModal();
+}
+
+function updateStructureFolderName(index, newName) {
+  customFolderStructure[index] = newName;
+}
+
+function createCustomFolderStructure() {
+  const structureName = document.getElementById('newFolderStructureName').value.trim();
+  
+  if (customFolderStructure.length === 0) {
+    showToast('Please add at least one folder', 'error');
+    return;
+  }
+  
+  closeModal('customFolderStructureModal');
+  showToast(`Creating "${structureName}" with ${customFolderStructure.length} custom folders...`, 'info');
+  
+  setTimeout(() => {
+    showToast(`Folder structure "${structureName}" created successfully!`, 'success');
+    console.log('Created custom folder structure:', structureName, customFolderStructure);
   }, 1500);
 }
 </script>
