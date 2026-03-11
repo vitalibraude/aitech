@@ -62,151 +62,42 @@
 
     <!-- Checkout Report -->
     <div id="report-checkout">
-      <div class="alert alert-info" style="margin-bottom:14px">
-        <i class="fas fa-envelope"></i>
-        <span>This report is <strong>automatically sent by email</strong> to each user on the 1st of each month, listing their documents currently checked out. Power Automate schedule: Monthly on day 1.</span>
-      </div>
-      <div class="card">
-        <div class="card-header">
-          <h3><i class="fas fa-lock"></i> Documents Currently Checked Out – March 2024</h3>
-          <span style="font-size:0.82rem;color:#888">18 documents checked out across all users</span>
+      <div class="card" style="text-align:center;padding:40px 20px">
+        <div style="margin-bottom:24px">
+          <i class="fas fa-lock" style="font-size:48px;color:var(--accent);margin-bottom:16px"></i>
+          <h3 style="font-size:1.5rem;margin-bottom:8px;color:#333">Your Checked-Out Documents</h3>
+          <p style="font-size:0.95rem;color:#666;margin-bottom:24px">You are currently holding the following documents in Check-In status:</p>
         </div>
-        <div class="table-wrap">
-          <table class="doc-table">
-            <thead>
-              <tr><th>Document</th><th>User</th><th>Department</th><th>Checkout Date</th><th>Days Out</th><th>Auto-Release Date</th><th>Status</th></tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><i class="fas fa-file-excel doc-type-icon excel"></i> Q4 Budget Planning.xlsx</td>
-                <td>John Smith</td>
-                <td>Engineering</td>
-                <td>04/03/2024</td>
-                <td><strong>6 days</strong></td>
-                <td>04/06/2024</td>
-                <td><span class="status-badge checkout">Checked Out</span></td>
-              </tr>
-              <tr class="sla-breach">
-                <td><i class="fas fa-file-word doc-type-icon word"></i> Employee Handbook v3.docx</td>
-                <td>Lisa Park</td>
-                <td>HR</td>
-                <td>10/02/2024</td>
-                <td><strong style="color:var(--danger)">28 days</strong></td>
-                <td>10/05/2024</td>
-                <td><span class="status-badge rejected">Overdue</span></td>
-              </tr>
-              <tr>
-                <td><i class="fas fa-file-pdf doc-type-icon pdf"></i> Supplier Evaluation 2024.pdf</td>
-                <td>Tom Williams</td>
-                <td>Procurement</td>
-                <td>01/03/2024</td>
-                <td><strong>9 days</strong></td>
-                <td>01/06/2024</td>
-                <td><span class="status-badge checkout">Checked Out</span></td>
-              </tr>
-              <tr>
-                <td><i class="fas fa-file-excel doc-type-icon excel"></i> Project Cost Tracker.xlsx</td>
-                <td>Anna Clarke</td>
-                <td>Finance</td>
-                <td>25/02/2024</td>
-                <td><strong>14 days</strong></td>
-                <td>25/05/2024</td>
-                <td><span class="status-badge checkout">Checked Out</span></td>
-              </tr>
-              <tr>
-                <td><i class="fas fa-file-word doc-type-icon word"></i> IT Disaster Recovery Plan.docx</td>
-                <td>David Huang</td>
-                <td>IT</td>
-                <td>28/02/2024</td>
-                <td><strong>11 days</strong></td>
-                <td>28/05/2024</td>
-                <td><span class="status-badge checkout">Checked Out</span></td>
-              </tr>
-            </tbody>
-          </table>
+        
+        <div style="display:inline-block;background:#f8f9fa;padding:20px 40px;border-radius:12px;margin-bottom:28px">
+          <div style="font-size:3rem;font-weight:700;color:var(--accent);line-height:1" id="userCheckoutCount">5</div>
+          <div style="font-size:0.9rem;color:#666;margin-top:8px">Documents Checked Out</div>
         </div>
-      </div>
-      <div class="two-col" style="margin-top:16px">
-        <div class="card">
-          <div class="card-header"><h3><i class="fas fa-chart-bar"></i> Checkout Duration Distribution</h3></div>
-          <div style="height:220px;position:relative"><canvas id="checkoutChart"></canvas></div>
-        </div>
-        <div class="card">
-          <div class="card-header"><h3><i class="fas fa-chart-doughnut"></i> Checked Out by Department</h3></div>
-          <div style="height:220px;position:relative"><canvas id="deptCheckoutChart"></canvas></div>
+
+        <div>
+          <button class="qa-btn primary" onclick="releaseAllUserDocs()" style="font-size:1rem;padding:12px 32px">
+            <i class="fas fa-unlock"></i> Release All My Documents
+          </button>
         </div>
       </div>
     </div>
 
     <!-- Manager Report (hidden) -->
     <div id="report-manager" style="display:none">
-      <div class="alert alert-info" style="margin-bottom:14px">
-        <i class="fas fa-envelope"></i>
-        <span>This report is automatically sent to <strong>managers</strong> on the 1st of each month based on their <strong>Active Directory hierarchy</strong>. Each manager sees only their team's data.</span>
-      </div>
-      <div class="card">
-        <div class="card-header">
-          <h3><i class="fas fa-user-tie"></i> Manager Report – Engineering Team – March 2024</h3>
-          <span style="font-size:0.82rem;color:#888">Team Manager: John Smith</span>
+      <div class="card" style="text-align:center;padding:40px 20px">
+        <div style="margin-bottom:24px">
+          <i class="fas fa-user-tie" style="font-size:48px;color:var(--accent);margin-bottom:16px"></i>
+          <h3 style="font-size:1.5rem;margin-bottom:8px;color:#333">System-Wide Checked-Out Documents</h3>
+          <p style="font-size:0.95rem;color:#666;margin-bottom:24px">Total documents currently in Check-In status across all users:</p>
         </div>
-        <div class="two-col" style="margin-bottom:16px">
-          <div class="kpi-card" style="box-shadow:none;border:1px solid #edf0f7">
-            <div class="kpi-icon" style="background:#e8f0fe;color:#0078d4"><i class="fas fa-users"></i></div>
-            <div class="kpi-info"><div class="kpi-val">4</div><div class="kpi-label">Team Members</div></div>
-          </div>
-          <div class="kpi-card" style="box-shadow:none;border:1px solid #edf0f7">
-            <div class="kpi-icon" style="background:#fde8e8;color:#c50f1f"><i class="fas fa-exclamation-circle"></i></div>
-            <div class="kpi-info"><div class="kpi-val">3</div><div class="kpi-label">Overdue Workflows</div></div>
-          </div>
-          <div class="kpi-card" style="box-shadow:none;border:1px solid #edf0f7">
-            <div class="kpi-icon" style="background:#d1e7dd;color:#0a3622"><i class="fas fa-check-double"></i></div>
-            <div class="kpi-info"><div class="kpi-val">28</div><div class="kpi-label">Completed This Month</div></div>
-          </div>
-          <div class="kpi-card" style="box-shadow:none;border:1px solid #edf0f7">
-            <div class="kpi-icon" style="background:#fff3cd;color:#856404"><i class="fas fa-lock"></i></div>
-            <div class="kpi-info"><div class="kpi-val">5</div><div class="kpi-label">Checked Out Docs</div></div>
-          </div>
+        
+        <div style="display:inline-block;background:#f8f9fa;padding:20px 40px;border-radius:12px">
+          <div style="font-size:3rem;font-weight:700;color:var(--accent);line-height:1" id="totalCheckoutCount">18</div>
+          <div style="font-size:0.9rem;color:#666;margin-top:8px">Documents Checked Out</div>
         </div>
-        <div class="table-wrap">
-          <table class="doc-table">
-            <thead>
-              <tr><th>Team Member</th><th>Active Workflows</th><th>Overdue</th><th>Checked Out</th><th>Last Activity</th><th>Status</th></tr>
-            </thead>
-            <tbody>
-              <tr class="sla-breach">
-                <td><div style="display:flex;align-items:center;gap:8px"><div class="tm-avatar-sm">LP</div> Lisa Park</div></td>
-                <td>3</td>
-                <td class="overdue">1</td>
-                <td>2</td>
-                <td>05/03/2024</td>
-                <td><span class="status-badge rejected">Needs Attention</span></td>
-              </tr>
-              <tr>
-                <td><div style="display:flex;align-items:center;gap:8px"><div class="tm-avatar-sm" style="background:linear-gradient(135deg,#107c10,#1a9e1a)">TW</div> Tom Williams</div></td>
-                <td>2</td>
-                <td>0</td>
-                <td>1</td>
-                <td>08/03/2024</td>
-                <td><span class="status-badge signed">On Track</span></td>
-              </tr>
-              <tr>
-                <td><div style="display:flex;align-items:center;gap:8px"><div class="tm-avatar-sm" style="background:linear-gradient(135deg,#d83b01,#e85020)">AC</div> Anna Clarke</div></td>
-                <td>1</td>
-                <td>0</td>
-                <td>1</td>
-                <td>07/03/2024</td>
-                <td><span class="status-badge inprogress">On Track</span></td>
-              </tr>
-              <tr>
-                <td><div style="display:flex;align-items:center;gap:8px"><div class="tm-avatar-sm" style="background:linear-gradient(135deg,#4f46e5,#6057f0)">DH</div> David Huang</div></td>
-                <td>1</td>
-                <td>0</td>
-                <td>1</td>
-                <td>06/03/2024</td>
-                <td><span class="status-badge signed">On Track</span></td>
-              </tr>
-            </tbody>
-          </table>
+
+        <div style="margin-top:32px;padding-top:32px;border-top:1px solid #e0e0e0">
+          <p style="color:#888;font-size:0.85rem"><i class="fas fa-info-circle"></i> As a manager, you can view this statistic but cannot release documents on behalf of other users.</p>
         </div>
       </div>
     </div>
@@ -275,26 +166,21 @@ function showReport(type) {
   if (type === 'workflow') renderTrendChart();
 }
 
-// Checkout Duration Bar Chart
-new Chart(document.getElementById('checkoutChart'), {
-  type: 'bar',
-  data: {
-    labels: ['1-7 Days','8-14 Days','15-30 Days','30+ Days'],
-    datasets: [{ label: 'Documents', data: [8, 5, 3, 2], backgroundColor: ['#107c10','#0078d4','#ffc107','#c50f1f'], borderRadius: 6 }]
-  },
-  options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{ y:{grid:{color:'#f0f0f0'},ticks:{font:{family:'Inter',size:10}}}, x:{grid:{display:false},ticks:{font:{family:'Inter',size:10}}} } }
-});
+// Function to release all user documents
+function releaseAllUserDocs() {
+  if (confirm('Are you sure you want to release all your checked-out documents?')) {
+    showToast('Releasing all documents...', 'info');
+    
+    // Simulate API call to SharePoint
+    setTimeout(() => {
+      const newCount = 0;
+      document.getElementById('userCheckoutCount').textContent = newCount;
+      showToast('Successfully released all your documents!', 'success');
+    }, 1500);
+  }
+}
 
-// Dept Checkout Doughnut
-new Chart(document.getElementById('deptCheckoutChart'), {
-  type: 'doughnut',
-  data: {
-    labels: ['Engineering','Finance','HR','Procurement','IT','Legal'],
-    datasets: [{ data: [5, 4, 3, 2, 2, 2], backgroundColor: ['#0078d4','#107c10','#ffc107','#d83b01','#4f46e5','#c50f1f'], borderWidth: 3, borderColor: '#fff' }]
-  },
-  options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{font:{family:'Inter',size:10},padding:8} } }, cutout:'60%' }
-});
-
+// Workflow Trend Chart
 function renderTrendChart() {
   if (window.trendRendered) return;
   window.trendRendered = true;
