@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reports – DMS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo"><i class="fab fa-microsoft"></i><span>SharePoint VSS</span></div>
+    <div class="topnav-search">
+      <i class="fas fa-search"></i>
+      <input type="text" placeholder="Search documents..." id="globalSearch" autocomplete="off">
+      <span class="search-shortcut">Ctrl+K</span>
+    </div>
+    <div class="topnav-actions">
+      <button class="nav-icon-btn"><i class="fas fa-bell"></i><span class="badge">3</span></button>
+      <div class="user-avatar">JS</div>
+    </div>
+  </div>
+</nav>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-toggle">
+      <button class="toggle-btn" id="sidebarToggle" title="Collapse / Expand"><i class="fas fa-chevron-left"></i></button>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="index.html" class="nav-item" data-label="Home"><i class="fas fa-home"></i><span>Home</span></a>
+      <a href="dashboard.html" class="nav-item" data-label="Dashboard"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
+      <a href="portal.html" class="nav-item" data-label="My Portal"><i class="fas fa-user-circle"></i><span>My Portal</span></a>
+      <a href="search.html" class="nav-item" data-label="Advanced Search"><i class="fas fa-search-plus"></i><span>Advanced Search</span></a>
+      <a href="library.html" class="nav-item" data-label="Document Library"><i class="fas fa-folder-open"></i><span>Document Library</span></a>
+      <a href="workflow.html" class="nav-item" data-label="Signatures & Approvals"><i class="fas fa-signature"></i><span>Signatures & Approvals</span></a>
+      <a href="reports.html" class="nav-item active" data-label="Reports"><i class="fas fa-chart-bar"></i><span>Reports</span></a>
+      <div class="nav-divider"></div>
+      <a href="guide.html" class="nav-item" data-label="SharePoint Guide"><i class="fas fa-book"></i><span>SharePoint Guide</span></a>
+    </nav>
+  </aside>
+  <main class="main-content" id="mainContent">
+
+    <div class="page-header">
+      <h2><i class="fas fa-chart-bar" style="color:var(--accent)"></i> Automated Reports</h2>
+      <div style="display:flex;gap:8px">
+        <select class="filter-select"><option>March 2024</option><option>February 2024</option><option>January 2024</option></select>
+        <button class="qa-btn primary" onclick="showToast('Report exported to PDF','success')"><i class="fas fa-file-pdf"></i> Export PDF</button>
+        <button class="qa-btn" onclick="showToast('Report exported to Excel','success')"><i class="fas fa-file-excel"></i> Export Excel</button>
+      </div>
+    </div>
+
+    <!-- Report Type Tabs -->
+    <div class="report-tabs">
+      <button class="rtab active" onclick="showReport('checkout')"><i class="fas fa-lock"></i> Checked-Out Report</button>
+      <button class="rtab" onclick="showReport('manager')"><i class="fas fa-user-tie"></i> Manager Report</button>
+      <button class="rtab" onclick="showReport('workflow')"><i class="fas fa-signature"></i> Workflow Report</button>
+      <button class="rtab" onclick="showReport('activity')"><i class="fas fa-activity"></i> Activity Report</button>
+    </div>
+
+    <!-- Checkout Report -->
+    <div id="report-checkout">
+      <div class="alert alert-info" style="margin-bottom:14px">
+        <i class="fas fa-envelope"></i>
+        <span>This report is <strong>automatically sent by email</strong> to each user on the 1st of each month, listing their documents currently checked out. Power Automate schedule: Monthly on day 1.</span>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <h3><i class="fas fa-lock"></i> Documents Currently Checked Out – March 2024</h3>
+          <span style="font-size:0.82rem;color:#888">18 documents checked out across all users</span>
+        </div>
+        <div class="table-wrap">
+          <table class="doc-table">
+            <thead>
+              <tr><th>Document</th><th>User</th><th>Department</th><th>Checkout Date</th><th>Days Out</th><th>Auto-Release Date</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><i class="fas fa-file-excel doc-type-icon excel"></i> Q4 Budget Planning.xlsx</td>
+                <td>John Smith</td>
+                <td>Engineering</td>
+                <td>04/03/2024</td>
+                <td><strong>6 days</strong></td>
+                <td>04/06/2024</td>
+                <td><span class="status-badge checkout">Checked Out</span></td>
+              </tr>
+              <tr class="sla-breach">
+                <td><i class="fas fa-file-word doc-type-icon word"></i> Employee Handbook v3.docx</td>
+                <td>Lisa Park</td>
+                <td>HR</td>
+                <td>10/02/2024</td>
+                <td><strong style="color:var(--danger)">28 days</strong></td>
+                <td>10/05/2024</td>
+                <td><span class="status-badge rejected">Overdue</span></td>
+              </tr>
+              <tr>
+                <td><i class="fas fa-file-pdf doc-type-icon pdf"></i> Supplier Evaluation 2024.pdf</td>
+                <td>Tom Williams</td>
+                <td>Procurement</td>
+                <td>01/03/2024</td>
+                <td><strong>9 days</strong></td>
+                <td>01/06/2024</td>
+                <td><span class="status-badge checkout">Checked Out</span></td>
+              </tr>
+              <tr>
+                <td><i class="fas fa-file-excel doc-type-icon excel"></i> Project Cost Tracker.xlsx</td>
+                <td>Anna Clarke</td>
+                <td>Finance</td>
+                <td>25/02/2024</td>
+                <td><strong>14 days</strong></td>
+                <td>25/05/2024</td>
+                <td><span class="status-badge checkout">Checked Out</span></td>
+              </tr>
+              <tr>
+                <td><i class="fas fa-file-word doc-type-icon word"></i> IT Disaster Recovery Plan.docx</td>
+                <td>David Huang</td>
+                <td>IT</td>
+                <td>28/02/2024</td>
+                <td><strong>11 days</strong></td>
+                <td>28/05/2024</td>
+                <td><span class="status-badge checkout">Checked Out</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="two-col" style="margin-top:16px">
+        <div class="card">
+          <div class="card-header"><h3><i class="fas fa-chart-bar"></i> Checkout Duration Distribution</h3></div>
+          <div style="height:220px;position:relative"><canvas id="checkoutChart"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3><i class="fas fa-chart-doughnut"></i> Checked Out by Department</h3></div>
+          <div style="height:220px;position:relative"><canvas id="deptCheckoutChart"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Manager Report (hidden) -->
+    <div id="report-manager" style="display:none">
+      <div class="alert alert-info" style="margin-bottom:14px">
+        <i class="fas fa-envelope"></i>
+        <span>This report is automatically sent to <strong>managers</strong> on the 1st of each month based on their <strong>Active Directory hierarchy</strong>. Each manager sees only their team's data.</span>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <h3><i class="fas fa-user-tie"></i> Manager Report – Engineering Team – March 2024</h3>
+          <span style="font-size:0.82rem;color:#888">Team Manager: John Smith</span>
+        </div>
+        <div class="two-col" style="margin-bottom:16px">
+          <div class="kpi-card" style="box-shadow:none;border:1px solid #edf0f7">
+            <div class="kpi-icon" style="background:#e8f0fe;color:#0078d4"><i class="fas fa-users"></i></div>
+            <div class="kpi-info"><div class="kpi-val">4</div><div class="kpi-label">Team Members</div></div>
+          </div>
+          <div class="kpi-card" style="box-shadow:none;border:1px solid #edf0f7">
+            <div class="kpi-icon" style="background:#fde8e8;color:#c50f1f"><i class="fas fa-exclamation-circle"></i></div>
+            <div class="kpi-info"><div class="kpi-val">3</div><div class="kpi-label">Overdue Workflows</div></div>
+          </div>
+          <div class="kpi-card" style="box-shadow:none;border:1px solid #edf0f7">
+            <div class="kpi-icon" style="background:#d1e7dd;color:#0a3622"><i class="fas fa-check-double"></i></div>
+            <div class="kpi-info"><div class="kpi-val">28</div><div class="kpi-label">Completed This Month</div></div>
+          </div>
+          <div class="kpi-card" style="box-shadow:none;border:1px solid #edf0f7">
+            <div class="kpi-icon" style="background:#fff3cd;color:#856404"><i class="fas fa-lock"></i></div>
+            <div class="kpi-info"><div class="kpi-val">5</div><div class="kpi-label">Checked Out Docs</div></div>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="doc-table">
+            <thead>
+              <tr><th>Team Member</th><th>Active Workflows</th><th>Overdue</th><th>Checked Out</th><th>Last Activity</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              <tr class="sla-breach">
+                <td><div style="display:flex;align-items:center;gap:8px"><div class="tm-avatar-sm">LP</div> Lisa Park</div></td>
+                <td>3</td>
+                <td class="overdue">1</td>
+                <td>2</td>
+                <td>05/03/2024</td>
+                <td><span class="status-badge rejected">Needs Attention</span></td>
+              </tr>
+              <tr>
+                <td><div style="display:flex;align-items:center;gap:8px"><div class="tm-avatar-sm" style="background:linear-gradient(135deg,#107c10,#1a9e1a)">TW</div> Tom Williams</div></td>
+                <td>2</td>
+                <td>0</td>
+                <td>1</td>
+                <td>08/03/2024</td>
+                <td><span class="status-badge signed">On Track</span></td>
+              </tr>
+              <tr>
+                <td><div style="display:flex;align-items:center;gap:8px"><div class="tm-avatar-sm" style="background:linear-gradient(135deg,#d83b01,#e85020)">AC</div> Anna Clarke</div></td>
+                <td>1</td>
+                <td>0</td>
+                <td>1</td>
+                <td>07/03/2024</td>
+                <td><span class="status-badge inprogress">On Track</span></td>
+              </tr>
+              <tr>
+                <td><div style="display:flex;align-items:center;gap:8px"><div class="tm-avatar-sm" style="background:linear-gradient(135deg,#4f46e5,#6057f0)">DH</div> David Huang</div></td>
+                <td>1</td>
+                <td>0</td>
+                <td>1</td>
+                <td>06/03/2024</td>
+                <td><span class="status-badge signed">On Track</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Workflow Report (hidden) -->
+    <div id="report-workflow" style="display:none">
+      <div class="card">
+        <div class="card-header"><h3><i class="fas fa-chart-line"></i> Workflow Completion Trends – Q1 2024</h3></div>
+        <div style="height:280px;position:relative"><canvas id="trendChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Activity Report (hidden) -->
+    <div id="report-activity" style="display:none">
+      <div class="card">
+        <div class="card-header"><h3><i class="fas fa-stream"></i> System Activity Log – March 2024</h3></div>
+        <div class="table-wrap">
+          <table class="doc-table">
+            <thead><tr><th>Timestamp</th><th>User</th><th>Action</th><th>Document</th><th>Department</th></tr></thead>
+            <tbody>
+              <tr><td>10/03/2024 09:14</td><td>John Smith</td><td><span class="status-badge inprogress">Check Out</span></td><td>Q4 Budget Planning.xlsx</td><td>Engineering</td></tr>
+              <tr><td>10/03/2024 08:52</td><td>Dana Cohen</td><td><span class="status-badge pending">Signature Request</span></td><td>Partnership Agreement – J-Comm</td><td>Legal</td></tr>
+              <tr><td>09/03/2024 17:30</td><td>Lisa Park</td><td><span class="status-badge signed">Upload v3.2</span></td><td>Technical Spec v3.2.pdf</td><td>Engineering</td></tr>
+              <tr><td>09/03/2024 14:22</td><td>Ruth Golan</td><td><span class="status-badge signed">Sign Complete</span></td><td>Annual Audit Report 2023</td><td>Finance</td></tr>
+              <tr><td>08/03/2024 11:05</td><td>Tom Williams</td><td><span class="status-badge checkout">Check Out</span></td><td>Supplier Evaluation 2024.pdf</td><td>Procurement</td></tr>
+              <tr><td>07/03/2024 16:48</td><td>Sarah Levinsky</td><td><span class="status-badge rejected">Rejected</span></td><td>Customer Privacy Declaration</td><td>Legal</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<style>
+.report-tabs { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+.rtab {
+  padding:9px 18px; border-radius:8px;
+  border:1.5px solid #dde3ee;
+  background:white; color:#555;
+  font-family:'Inter',sans-serif; font-size:0.84rem; font-weight:500;
+  cursor:pointer; display:flex; align-items:center; gap:8px;
+  transition:all 0.2s;
+}
+.rtab:hover { border-color:var(--accent); color:var(--accent); }
+.rtab.active { background:var(--accent); color:white; border-color:var(--accent); }
+.tm-avatar-sm {
+  width:30px; height:30px; border-radius:50%;
+  background:linear-gradient(135deg,#0078d4,#00a4ef);
+  color:white; font-size:0.68rem; font-weight:700;
+  display:flex; align-items:center; justify-content:center;
+}
+</style>
+
+<script src="js/main.js"></script>
+<script>
+function showReport(type) {
+  ['checkout','manager','workflow','activity'].forEach(r => {
+    document.getElementById('report-'+r).style.display = 'none';
+  });
+  document.getElementById('report-'+type).style.display = 'block';
+  document.querySelectorAll('.rtab').forEach((b,i) => b.classList.remove('active'));
+  event.target.closest('.rtab').classList.add('active');
+
+  if (type === 'workflow') renderTrendChart();
+}
+
+// Checkout Duration Bar Chart
+new Chart(document.getElementById('checkoutChart'), {
+  type: 'bar',
+  data: {
+    labels: ['1-7 Days','8-14 Days','15-30 Days','30+ Days'],
+    datasets: [{ label: 'Documents', data: [8, 5, 3, 2], backgroundColor: ['#107c10','#0078d4','#ffc107','#c50f1f'], borderRadius: 6 }]
+  },
+  options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{ y:{grid:{color:'#f0f0f0'},ticks:{font:{family:'Inter',size:10}}}, x:{grid:{display:false},ticks:{font:{family:'Inter',size:10}}} } }
+});
+
+// Dept Checkout Doughnut
+new Chart(document.getElementById('deptCheckoutChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Engineering','Finance','HR','Procurement','IT','Legal'],
+    datasets: [{ data: [5, 4, 3, 2, 2, 2], backgroundColor: ['#0078d4','#107c10','#ffc107','#d83b01','#4f46e5','#c50f1f'], borderWidth: 3, borderColor: '#fff' }]
+  },
+  options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{font:{family:'Inter',size:10},padding:8} } }, cutout:'60%' }
+});
+
+function renderTrendChart() {
+  if (window.trendRendered) return;
+  window.trendRendered = true;
+  new Chart(document.getElementById('trendChart'), {
+    type: 'line',
+    data: {
+      labels: ['Jan','Feb','Mar'],
+      datasets: [
+        { label:'Completed', data:[98,124,152], borderColor:'#107c10', backgroundColor:'rgba(16,124,16,0.08)', tension:0.4, fill:true, pointRadius:5 },
+        { label:'Rejected', data:[8,5,3], borderColor:'#c50f1f', backgroundColor:'rgba(197,15,31,0.06)', tension:0.4, fill:true, pointRadius:5 },
+        { label:'SLA Breaches', data:[12,8,5], borderColor:'#ffc107', backgroundColor:'rgba(255,193,7,0.06)', tension:0.4, fill:true, pointRadius:5 }
+      ]
+    },
+    options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{font:{family:'Inter',size:11},padding:14} } }, scales:{ y:{grid:{color:'#f0f0f0'},ticks:{font:{family:'Inter',size:11}}}, x:{grid:{display:false},ticks:{font:{family:'Inter',size:11}}} } }
+  });
+}
+</script>
+</body>
+</html>

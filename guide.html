@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SharePoint Implementation Guide – DMS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo"><i class="fab fa-microsoft"></i><span>SharePoint VSS</span></div>
+    <div class="topnav-search">
+      <i class="fas fa-search"></i>
+      <input type="text" placeholder="Search documents..." id="globalSearch" autocomplete="off">
+    </div>
+    <div class="topnav-actions">
+      <button class="nav-icon-btn"><i class="fas fa-bell"></i><span class="badge">3</span></button>
+      <div class="user-avatar">JS</div>
+    </div>
+  </div>
+</nav>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-toggle">
+      <button class="toggle-btn" id="sidebarToggle" title="Collapse / Expand"><i class="fas fa-chevron-left"></i></button>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="index.html" class="nav-item" data-label="Home"><i class="fas fa-home"></i><span>Home</span></a>
+      <a href="dashboard.html" class="nav-item" data-label="Dashboard"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
+      <a href="portal.html" class="nav-item" data-label="My Portal"><i class="fas fa-user-circle"></i><span>My Portal</span></a>
+      <a href="search.html" class="nav-item" data-label="Advanced Search"><i class="fas fa-search-plus"></i><span>Advanced Search</span></a>
+      <a href="library.html" class="nav-item" data-label="Document Library"><i class="fas fa-folder-open"></i><span>Document Library</span></a>
+      <a href="workflow.html" class="nav-item" data-label="Signatures & Approvals"><i class="fas fa-signature"></i><span>Signatures & Approvals</span></a>
+      <a href="reports.html" class="nav-item" data-label="Reports"><i class="fas fa-chart-bar"></i><span>Reports</span></a>
+      <div class="nav-divider"></div>
+      <a href="guide.html" class="nav-item active" data-label="SharePoint Guide"><i class="fas fa-book"></i><span>SharePoint Guide</span></a>
+    </nav>
+  </aside>
+  <main class="main-content" id="mainContent">
+
+    <div class="page-header">
+      <h2><i class="fas fa-book" style="color:var(--accent)"></i> SharePoint Online – Full Implementation Guide</h2>
+      <a href="#" onclick="showToast('Guide exported to PDF','success')" class="qa-btn"><i class="fas fa-file-pdf"></i> Export Guide</a>
+    </div>
+
+    <div class="alert alert-success">
+      <i class="fas fa-lightbulb"></i>
+      <span>This guide tells you <strong>exactly where to go and what to paste</strong> in SharePoint Admin Center, SharePoint Online site, Power Automate, and Power Apps — step by step for each feature.</span>
+    </div>
+
+    <!-- Quick Nav Pills -->
+    <div class="nav-pill">
+      <a href="#s1" class="active">1. Site Setup</a>
+      <a href="#s2">2. Document Libraries</a>
+      <a href="#s3">3. Metadata & Tags</a>
+      <a href="#s4">4. Search Config</a>
+      <a href="#s5">5. Check-In/Out</a>
+      <a href="#s6">6. Version Control</a>
+      <a href="#s7">7. Folder Automation</a>
+      <a href="#s8">8. Signature Workflow</a>
+      <a href="#s9">9. Email Notifications</a>
+      <a href="#s10">10. Permissions & AD</a>
+      <a href="#s11">11. Reporting</a>
+      <a href="#s12">12. Migration</a>
+      <a href="#s13">13. Sharing</a>
+    </div>
+
+    <!-- ===================== SECTION 1 ===================== -->
+    <div class="guide-section" id="s1">
+      <h3><i class="fas fa-globe"></i> 1. SharePoint Site Setup – Home Page</h3>
+      <div class="step-box"><strong>Where to go:</strong> Go to <code>https://admin.microsoft.com</code> → SharePoint Admin Center → Active Sites → Create → Communication Site</div>
+      <ol>
+        <li>Create a <strong>Communication Site</strong> named <em>"Company DMS"</em> at <code>/sites/dms</code></li>
+        <li>Set site language to English, time zone to your region</li>
+        <li>Go to <strong>Site Settings → Site Information</strong> → Set site logo and title</li>
+        <li>To show <strong>Recent Files</strong>: Add the <strong>"Highlighted Content"</strong> web part → Filter by: Recently Modified</li>
+        <li>To add <strong>Search Bar</strong>: Add <strong>"Search Box"</strong> web part to the home page</li>
+        <li>To add <strong>Departments grid</strong>: Add <strong>"Quick Links"</strong> web part → Select each library icon and link</li>
+        <li>For <strong>Personalized views</strong>: Use <strong>"News"</strong> web part + <strong>"My Feed"</strong> web part</li>
+      </ol>
+      <div class="warn-box"><i class="fas fa-exclamation-triangle"></i> Make sure to enable <strong>Modern Experience</strong> in all document libraries (not Classic). Go to Library Settings → Advanced Settings → List experience: New experience.</div>
+    </div>
+
+    <!-- ===================== SECTION 2 ===================== -->
+    <div class="guide-section" id="s2">
+      <h3><i class="fas fa-folder-open"></i> 2. Document Libraries Configuration</h3>
+      <div class="step-box"><strong>Where to go:</strong> Your SharePoint Site → <strong>+ New → Document Library</strong></div>
+      <ol>
+        <li>Create one Document Library per department: <em>Engineering, Finance, Legal, Marketing, IT, HR, Procurement</em></li>
+        <li>Create a master <strong>"Projects"</strong> library with sub-folders per project</li>
+        <li>For each library: Go to <strong>Library Settings → Versioning Settings</strong>:
+          <ul>
+            <li>Enable: <strong>Require content approval</strong> → Yes</li>
+            <li>Enable: <strong>Create a version each time you edit a file</strong> → Major and minor versions</li>
+            <li>Keep drafts for: <em>Only users who can approve</em></li>
+          </ul>
+        </li>
+        <li>Set <strong>Document Information Panel</strong>: Go to Content Types → Open in Word → Document Properties</li>
+      </ol>
+      <div class="success-box"><i class="fas fa-check-circle"></i> Recommended: Use <strong>Content Types</strong> for each document type (Contract, Policy, Report, NDA) — Go to Site Settings → Site Content Types → New Content Type</div>
+    </div>
+
+    <!-- ===================== SECTION 3 ===================== -->
+    <div class="guide-section" id="s3">
+      <h3><i class="fas fa-tags"></i> 3. Metadata Columns & Tag Management (Term Store)</h3>
+      <div class="step-box"><strong>Where to go (Term Store):</strong> SharePoint Admin Center → <strong>Content services → Term store</strong></div>
+      <ol>
+        <li>In Term Store, create a <strong>Term Group</strong> named <em>"DMS Tags"</em></li>
+        <li>Inside it, create <strong>Term Sets</strong>: Document Types, Departments, Projects, Clients, Products, Status</li>
+        <li>Add terms to each set (e.g., Contract, NDA, Policy, Invoice under "Document Types")</li>
+        <li>To allow self-service tag creation: Open a Term Set → Set <strong>Submission Policy: Open</strong></li>
+      </ol>
+      <div class="step-box"><strong>Where to go (Metadata Columns):</strong> Document Library → <strong>Library Settings → Create Column</strong></div>
+      <ol>
+        <li>Create column: <strong>Tags</strong> → Type: <em>Managed Metadata</em> → Point to DMS Tags term set → Allow multiple values: Yes</li>
+        <li>Create column: <strong>Project Name</strong> → Type: <em>Single line of text</em></li>
+        <li>Create column: <strong>Client</strong> → Type: <em>Single line of text</em></li>
+        <li>Create column: <strong>Product</strong> → Type: <em>Single line of text</em></li>
+        <li>Create column: <strong>Priority</strong> → Type: <em>Choice</em> → Values: 1, 2, 3</li>
+        <li>Create column: <strong>Document Status</strong> → Type: <em>Choice</em> → Values: Draft, In Review, Approved, Released, Archived</li>
+        <li>Create column: <strong>Version Label</strong> → Type: <em>Single line of text</em></li>
+        <li>Create column: <strong>Change Description</strong> → Type: <em>Multiple lines of text</em></li>
+      </ol>
+      <div class="warn-box"><i class="fas fa-info-circle"></i> <strong>Folder Metadata Inheritance</strong>: This requires a <strong>Power Automate flow</strong>. When a file is added to a folder, the flow reads the folder's metadata columns and copies them to the new file. See Section 7.</div>
+    </div>
+
+    <!-- ===================== SECTION 4 ===================== -->
+    <div class="guide-section" id="s4">
+      <h3><i class="fas fa-search"></i> 4. Advanced Search Configuration</h3>
+      <div class="step-box"><strong>Where to go:</strong> SharePoint Admin Center → <strong>More features → Search → Manage Search Schema</strong></div>
+      <ol>
+        <li>Find the <strong>Crawled Property</strong> for each metadata column you created (they appear as <code>ows_Tags</code>, <code>ows_ProjectName</code>, etc.)</li>
+        <li>Map each crawled property to a <strong>Managed Property</strong> — create new ones named <em>DmsTag, DmsProject, DmsClient, DmsProduct</em></li>
+        <li>For each Managed Property, check: <strong>Searchable ✓, Queryable ✓, Retrievable ✓, Refinable – Yes - active</strong></li>
+        <li>After mapping: Go to <strong>Search → Manage Search Schema → Run a Full Crawl</strong></li>
+        <li>To add <strong>Search Refiners</strong> on search results page: Edit the Search Results page → Add Refinement web part → Add your managed properties</li>
+      </ol>
+      <div class="success-box"><i class="fas fa-check-circle"></i> For the search page in your DMS site: Use a <strong>Search Center</strong> page or add a <strong>Search Results web part</strong> on a new page → Site Pages → New Page → Named "Advanced Search"</div>
+    </div>
+
+    <!-- ===================== SECTION 5 ===================== -->
+    <div class="guide-section" id="s5">
+      <h3><i class="fas fa-lock"></i> 5. Check-In / Check-Out Setup</h3>
+      <div class="step-box"><strong>Where to go:</strong> Document Library → <strong>Library Settings → Versioning Settings</strong></div>
+      <ol>
+        <li>Set <strong>Require Check Out: Yes</strong> → This forces users to check out before editing</li>
+        <li>Users check out via: Select file → <strong>… (ellipsis) → More → Check Out</strong></li>
+        <li>Visual indicator: Checked-out files show a <strong>green arrow icon</strong> next to the file name in the library view</li>
+        <li>To check in: Select file → <strong>… → Check In</strong> → Enter version comment</li>
+        <li><strong>Auto-release after 3 months</strong>: Create a Power Automate Flow:
+          <ul>
+            <li>Trigger: <strong>Recurrence</strong> → Daily</li>
+            <li>Action: <strong>Get Files (SharePoint)</strong> with filter: <code>CheckedOutDate le utcNow(-90d)</code></li>
+            <li>Action: <strong>Check In File</strong> with comment: "Auto-released after 90 days"</li>
+            <li>Action: <strong>Send email</strong> to the user notifying of auto-release</li>
+          </ul>
+        </li>
+      </ol>
+      <div class="code-box">// Power Automate Expression – Check if file is overdue checkout<br>addDays(item()?['CheckedOutDate'], 90)</div>
+    </div>
+
+    <!-- ===================== SECTION 6 ===================== -->
+    <div class="guide-section" id="s6">
+      <h3><i class="fas fa-code-branch"></i> 6. Version Control Configuration</h3>
+      <div class="step-box"><strong>Where to go:</strong> Library Settings → <strong>Versioning Settings</strong></div>
+      <ol>
+        <li>Enable <strong>Major and Minor Versions</strong> (Major = Published, Minor = Draft)</li>
+        <li>To mark a <strong>Released Version</strong>: Select file → Version History → Promote to Major Version (Publish)</li>
+        <li>To add mandatory <strong>Change Description</strong>:
+          <ul>
+            <li>Go to Library Settings → <strong>Versioning Settings → Require Check Out: Yes</strong></li>
+            <li>When checking in, SharePoint will prompt for a version comment</li>
+            <li>To enforce non-empty comment: Create a Power Automate flow triggered on <em>Item Created or Modified</em> → Check if comment is blank → reject upload and notify user</li>
+          </ul>
+        </li>
+        <li><strong>Version Label column</strong>: Add metadata column (single line) → Fill manually or auto-fill via Power Automate</li>
+        <li>To view version history: Select file → Version History → Shows all versions with date, user, and comment</li>
+      </ol>
+    </div>
+
+    <!-- ===================== SECTION 7 ===================== -->
+    <div class="guide-section" id="s7">
+      <h3><i class="fas fa-folder-plus"></i> 7. Folder Structure Automation</h3>
+      <div class="step-box"><strong>Where to go:</strong> <strong>Power Automate</strong> → Create → Automated Cloud Flow → Trigger: SharePoint – When an item is created (in a Project Template List)</div>
+      <ol>
+        <li>Create a <strong>SharePoint List</strong> called <em>"Project Register"</em> with columns: Project Name, Client, Board Name, Template Type</li>
+        <li>In Power Automate, trigger: <strong>When a new item is created</strong> in "Project Register"</li>
+        <li>Add action: <strong>Create a new folder</strong> in the target library → Path: <code>/Projects/[ProjectName]</code></li>
+        <li>Repeat for each sub-folder: 01_Base_Documents, 02_Contracts, 03_Work_Plans, 04_Correspondence, 05_Reports, 06_Approvals_Signatures</li>
+        <li>To update folder name: Add action <strong>Update File</strong> with new name combining Board Name + Project Name</li>
+        <li><strong>Folder Metadata Inheritance Flow</strong>:
+          <ul>
+            <li>Trigger: <strong>When a file is created</strong> in the library</li>
+            <li>Get parent folder properties using <strong>Send HTTP Request to SharePoint</strong> → Read folder metadata</li>
+            <li>Update the new file's metadata columns with the folder's tag values using <strong>Update File Properties</strong></li>
+          </ul>
+        </li>
+      </ol>
+      <div class="code-box">// SharePoint REST API – Get folder metadata<br>GET _api/web/GetFolderByServerRelativeUrl('/sites/dms/docs/[FolderPath]')/ListItemAllFields<br>?$select=Tags,ProjectName,Client</div>
+    </div>
+
+    <!-- ===================== SECTION 8 ===================== -->
+    <div class="guide-section" id="s8">
+      <h3><i class="fas fa-signature"></i> 8. Signature Workflow (Power Automate + API)</h3>
+      <div class="step-box"><strong>Where to go:</strong> <strong>Power Automate</strong> → Create → Automated Cloud Flow</div>
+      <ol>
+        <li>Create a <strong>SharePoint List</strong> called <em>"Signature Requests"</em> with columns: DocumentURL, Signers (multi-value), CurrentSignerIndex, Status, Priority, DueDate, CreatedBy</li>
+        <li><strong>Start Workflow Flow</strong>:
+          <ul>
+            <li>Trigger: When item is created in "Signature Requests"</li>
+            <li>Get the first signer from the Signers array</li>
+            <li>Send email to first signer with document link and sign button</li>
+            <li>Update CurrentSignerIndex = 0, Status = "In Progress"</li>
+          </ul>
+        </li>
+        <li><strong>Process Signature Flow</strong>:
+          <ul>
+            <li>Trigger: When item is modified in "Signature Requests" (when signer acts)</li>
+            <li>If approved: Advance to next signer, send email to next signer</li>
+            <li>If last signer: Set Status = "Completed", notify creator</li>
+            <li>If rejected: Set Status = "Rejected", return to creator with comments</li>
+          </ul>
+        </li>
+        <li><strong>PDF Conversion</strong>: Use <strong>Encodian</strong> or <strong>Adobe Sign</strong> connector in Power Automate to convert Word → PDF and embed signature</li>
+        <li><strong>Alternative (Adobe Acrobat Sign)</strong>: Use the <em>Adobe Sign</em> Power Automate connector → Action: <em>Send for Signature</em> → it handles embedding and returning the signed PDF</li>
+        <li><strong>Restart Workflow</strong>: Add a button in Power Apps or a SharePoint list button that resets CurrentSignerIndex = 0 and Status = "Pending", then triggers the flow</li>
+      </ol>
+      <div class="warn-box"><i class="fas fa-exclamation-triangle"></i> For legally binding digital signatures with certificate embedding, integrate with <strong>DocuSign</strong> (connector available in Power Automate) or <strong>Adobe Sign</strong>. Both have native SharePoint connectors.</div>
+    </div>
+
+    <!-- ===================== SECTION 9 ===================== -->
+    <div class="guide-section" id="s9">
+      <h3><i class="fas fa-envelope"></i> 9. Email Notifications (Power Automate)</h3>
+      <div class="step-box"><strong>Where to go:</strong> <strong>Power Automate</strong> → All flows → Create each flow below</div>
+      <ol>
+        <li><strong>Notify Next Approver</strong>: Triggered when Signature Request status changes → If new signer assigned → Send email with action buttons</li>
+        <li><strong>Notify Creator on Completion</strong>: Triggered when Status = "Completed" → Send email to creator with signed document link</li>
+        <li><strong>Daily Reminder</strong>:
+          <ul>
+            <li>Trigger: <strong>Recurrence → Every 1 day at 08:00</strong></li>
+            <li>Action: Get all open Signature Requests where DueDate is within 3 days</li>
+            <li>Action: Send email to each signer with pending items</li>
+          </ul>
+        </li>
+        <li><strong>Weekly Summary</strong>:
+          <ul>
+            <li>Trigger: <strong>Recurrence → Every Monday at 09:00</strong></li>
+            <li>Action: Query all pending items per user</li>
+            <li>Action: Send HTML email with summary table</li>
+          </ul>
+        </li>
+      </ol>
+      <div class="code-box">// Power Automate – Send formatted HTML email<br>Action: Send an email (V2) – Office 365 Outlook<br>To: @{variables('SignerEmail')}<br>Subject: [Action Required] Document Awaiting Your Signature<br>Body: Use "Send email with options" for Approve/Reject buttons</div>
+    </div>
+
+    <!-- ===================== SECTION 10 ===================== -->
+    <div class="guide-section" id="s10">
+      <h3><i class="fas fa-shield-alt"></i> 10. Permissions, Security & Active Directory</h3>
+      <div class="step-box"><strong>Where to go:</strong> SharePoint Site → <strong>Site Settings → Site Permissions → Create Groups</strong></div>
+      <ol>
+        <li>Create SharePoint Permission Groups:
+          <ul>
+            <li><em>DMS-Readers</em> → Read only</li>
+            <li><em>DMS-Contributors</em> → Edit/Upload</li>
+            <li><em>DMS-Managers</em> → Full control of their library</li>
+            <li><em>DMS-Admins</em> → Site owner level</li>
+          </ul>
+        </li>
+        <li><strong>Sync with Active Directory</strong>: Go to <strong>Azure Active Directory (Entra ID)</strong> → Groups → Create Security Groups matching department structure → Add users</li>
+        <li>In SharePoint: Add each <strong>AAD Group</strong> to the appropriate SharePoint Permission Group</li>
+        <li><strong>Folder-level permissions</strong>: Select folder → Share → Manage Access → Stop Inheriting → Assign specific groups</li>
+        <li><strong>Manager identification</strong>: In Power Automate flows, use the <em>Office 365 Users</em> connector → <strong>Get Manager (V2)</strong> action to retrieve the manager of any user</li>
+        <li>For <strong>AD hierarchy in reports</strong>: Use Graph API action in Power Automate → <code>GET /users/{id}/manager</code></li>
+      </ol>
+      <div class="code-box">// Power Automate – Get user's manager from AAD<br>Action: Office 365 Users – Get Manager (V2)<br>User (UPN): @{triggerBody()?['Author']?['Email']}<br>// Returns: manager's name, email, department</div>
+    </div>
+
+    <!-- ===================== SECTION 11 ===================== -->
+    <div class="guide-section" id="s11">
+      <h3><i class="fas fa-chart-bar"></i> 11. Automated Reporting</h3>
+      <div class="step-box"><strong>Where to go:</strong> <strong>Power Automate</strong> → Scheduled Flows</div>
+      <ol>
+        <li><strong>Monthly Checked-Out Report to Users</strong>:
+          <ul>
+            <li>Trigger: <strong>Recurrence → Day 1 of every month</strong></li>
+            <li>Action: Get files from all libraries where CheckOutUser is not empty</li>
+            <li>Action: Group results by user</li>
+            <li>Action: For each user, send email with HTML table of their checked-out documents</li>
+          </ul>
+        </li>
+        <li><strong>Monthly Manager Report</strong>:
+          <ul>
+            <li>Trigger: <strong>Recurrence → Day 1 of every month</strong></li>
+            <li>Action: Get all users in each AD group</li>
+            <li>Action: For each user, get their manager using Office 365 Users connector</li>
+            <li>Action: Build HTML report per manager with team's document status</li>
+            <li>Action: Send email to each manager</li>
+          </ul>
+        </li>
+        <li><strong>Power BI Integration (Optional)</strong>: Connect Power BI to SharePoint lists → Build visual dashboards → Embed in SharePoint using <strong>Power BI web part</strong></li>
+      </ol>
+      <div class="code-box">// Power Automate – Filter checked-out files (SharePoint REST)<br>GET _api/web/lists/getbytitle('Documents')/items<br>?$filter=CheckedOutUserId ne null<br>&$select=Title,CheckedOutDate,CheckedOutUserId,FileRef</div>
+    </div>
+
+    <!-- ===================== SECTION 12 ===================== -->
+    <div class="guide-section" id="s12">
+      <h3><i class="fas fa-truck-loading"></i> 12. Migration from VSS</h3>
+      <div class="step-box"><strong>Tool to use:</strong> <strong>SharePoint Migration Tool (SPMT)</strong> — Free Microsoft tool. Download from: <a href="https://aka.ms/SPMT" target="_blank">aka.ms/SPMT</a></div>
+      <ol>
+        <li>Install SPMT on the migration source machine (where VSS files are accessible)</li>
+        <li>Open SPMT → Sign in with your Microsoft 365 admin account</li>
+        <li>Select <strong>File Share</strong> as source → Browse to the VSS export folder</li>
+        <li>Select the <strong>destination</strong>: Your SharePoint site URL + target library</li>
+        <li>In migration settings:
+          <ul>
+            <li>Enable: <strong>Preserve file timestamps</strong></li>
+            <li>Enable: <strong>Only migrate the latest version</strong></li>
+            <li>Enable: <strong>Migrate file metadata</strong> (where applicable)</li>
+          </ul>
+        </li>
+        <li>Run a <strong>Scan first</strong> to identify issues before migrating</li>
+        <li>Run migration in <strong>batches</strong> (recommend 5,000 files per batch)</li>
+        <li>After migration: Verify file count, run a full search crawl, check metadata mapping</li>
+      </ol>
+      <div class="warn-box"><i class="fas fa-exclamation-triangle"></i> File path length in SharePoint Online must be under 400 characters. Run SPMT scan to identify and rename long paths before migration.</div>
+      <div class="success-box"><i class="fas fa-check-circle"></i> For 40,000 files: Expect ~4-8 hours of migration time depending on file sizes and network speed. Run during off-peak hours.</div>
+    </div>
+
+    <!-- ===================== SECTION 13 ===================== -->
+    <div class="guide-section" id="s13">
+      <h3><i class="fas fa-share-alt"></i> 13. Sharing & External Access</h3>
+      <div class="step-box"><strong>Where to go:</strong> SharePoint Admin Center → <strong>Policies → Sharing</strong></div>
+      <ol>
+        <li>Set <strong>External Sharing level</strong> for the site: <em>"Existing guests and new guests"</em> or <em>"Anyone with a link"</em> depending on policy</li>
+        <li>Set <strong>Default link expiration: 14 days</strong> → SharePoint Admin Center → Policies → Sharing → Set expiration days: 14</li>
+        <li>To share a file: Select file → Share → Anyone with the link → Set expiration → Copy Link</li>
+        <li><strong>Track download confirmation</strong>: Enable <strong>SharePoint Access Requests</strong> + review audit logs. Go to <strong>Microsoft 365 Compliance Center → Audit → Search</strong> → Filter by "Downloaded file" activity</li>
+        <li><strong>External access without guest accounts</strong>: Use <strong>"Anyone with the link"</strong> sharing → Recipients don't need an account</li>
+        <li><strong>Open in Outlook Web panel</strong>: From any SharePoint file → Share → Outlook → Opens Outlook compose window with file link pre-filled</li>
+        <li>To restrict sharing to only admins: Site Settings → Permissions → <strong>Site Sharing: "Only site owners can share"</strong></li>
+      </ol>
+    </div>
+
+    <!-- Summary Table -->
+    <div class="guide-section">
+      <h3><i class="fas fa-table"></i> Quick Reference – Where Each Feature Lives</h3>
+      <div class="table-wrap">
+        <table class="doc-table">
+          <thead>
+            <tr><th>Feature</th><th>Platform</th><th>Location</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Home Page / Web Parts</td><td>SharePoint Online</td><td>Site → Edit Page → Add Web Parts</td></tr>
+            <tr><td>Document Libraries</td><td>SharePoint Online</td><td>Site → + New → Document Library</td></tr>
+            <tr><td>Metadata Columns</td><td>SharePoint Online</td><td>Library Settings → Create Column</td></tr>
+            <tr><td>Tag Management</td><td>SharePoint Admin Center</td><td>Content Services → Term Store</td></tr>
+            <tr><td>Search Schema Mapping</td><td>SharePoint Admin Center</td><td>More Features → Search → Search Schema</td></tr>
+            <tr><td>Check-In/Check-Out</td><td>SharePoint Online</td><td>Library Settings → Versioning Settings</td></tr>
+            <tr><td>Version Control</td><td>SharePoint Online</td><td>Library Settings → Versioning Settings</td></tr>
+            <tr><td>Folder Auto-Creation</td><td>Power Automate</td><td>Create → Automated Flow → SharePoint Trigger</td></tr>
+            <tr><td>Folder Tag Inheritance</td><td>Power Automate</td><td>Create → Automated Flow → File Created trigger</td></tr>
+            <tr><td>Signature Workflow</td><td>Power Automate</td><td>Create → Automated Flow + DocuSign/Adobe Sign connector</td></tr>
+            <tr><td>Email Notifications</td><td>Power Automate</td><td>Create → Scheduled/Automated Flow → Office 365 Outlook</td></tr>
+            <tr><td>Dashboard (Power Apps)</td><td>Power Apps</td><td>make.powerapps.com → Canvas App → Connect to SharePoint</td></tr>
+            <tr><td>Personal Portal</td><td>Power Apps</td><td>make.powerapps.com → Canvas App → Filter by current user</td></tr>
+            <tr><td>Permissions & Groups</td><td>SharePoint Online</td><td>Site Settings → Site Permissions</td></tr>
+            <tr><td>AD Integration</td><td>Azure Active Directory</td><td>portal.azure.com → Groups → Sync to SharePoint</td></tr>
+            <tr><td>Monthly Reports</td><td>Power Automate</td><td>Create → Scheduled Flow → SharePoint + Outlook</td></tr>
+            <tr><td>Migration (VSS → SPO)</td><td>SPMT Tool</td><td>Download from aka.ms/SPMT → Run on-premise</td></tr>
+            <tr><td>External Sharing Policy</td><td>SharePoint Admin Center</td><td>Policies → Sharing → Set expiry to 14 days</td></tr>
+            <tr><td>Download Tracking / Audit</td><td>Microsoft 365 Compliance</td><td>compliance.microsoft.com → Audit → Search</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+</div>
+<script src="js/main.js"></script>
+<script>
+// Smooth scroll for nav pills
+document.querySelectorAll('.nav-pill a').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    document.querySelectorAll('.nav-pill a').forEach(a => a.classList.remove('active'));
+    this.classList.add('active');
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+</script>
+</body>
+</html>

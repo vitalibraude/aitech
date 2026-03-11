@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DMS – Document Management System | SharePoint Online</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Top Navigation Bar -->
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo">
+      <i class="fab fa-microsoft"></i>
+      <span>SharePoint VSS</span>
+    </div>
+    <div class="topnav-search">
+      <i class="fas fa-search"></i>
+      <input type="text" placeholder="Search documents, folders, projects..." id="globalSearch" autocomplete="off">
+      <span class="search-shortcut">Ctrl+K</span>
+    </div>
+    <div class="topnav-actions">
+      <button class="nav-icon-btn" title="Notifications"><i class="fas fa-bell"></i><span class="badge">3</span></button>
+      <button class="nav-icon-btn" title="Upload Document" onclick="showModal('uploadModal')"><i class="fas fa-upload"></i></button>
+      <div class="user-avatar" title="John Smith">JS</div>
+    </div>
+  </div>
+</nav>
+
+<!-- Sidebar -->
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-toggle">
+      <button class="toggle-btn" id="sidebarToggle" title="Collapse / Expand"><i class="fas fa-chevron-left"></i></button>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="index.html" class="nav-item active" data-label="Home"><i class="fas fa-home"></i><span>Home</span></a>
+      <a href="dashboard.html" class="nav-item" data-label="Dashboard"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
+      <a href="portal.html" class="nav-item" data-label="My Portal"><i class="fas fa-user-circle"></i><span>My Portal</span></a>
+      <a href="search.html" class="nav-item" data-label="Advanced Search"><i class="fas fa-search-plus"></i><span>Advanced Search</span></a>
+      <a href="library.html" class="nav-item" data-label="Document Library"><i class="fas fa-folder-open"></i><span>Document Library</span></a>
+      <a href="workflow.html" class="nav-item" data-label="Signatures & Approvals"><i class="fas fa-signature"></i><span>Signatures & Approvals</span></a>
+      <a href="reports.html" class="nav-item" data-label="Reports"><i class="fas fa-chart-bar"></i><span>Reports</span></a>
+      <div class="nav-divider"></div>
+      <a href="guide.html" class="nav-item" data-label="SharePoint Guide"><i class="fas fa-book"></i><span>SharePoint Guide</span></a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content" id="mainContent">
+
+    <!-- Welcome Banner -->
+    <div class="welcome-banner">
+      <div class="welcome-text">
+        <h1>Good morning, John 👋</h1>
+        <p>Enterprise Document Management System &nbsp;|&nbsp; <strong>40,000+</strong> Documents &nbsp;|&nbsp; <strong>12</strong> Departments</p>
+      </div>
+      <div class="welcome-stats">
+        <div class="stat-pill"><i class="fas fa-clock"></i> 5 documents awaiting your action</div>
+        <div class="stat-pill warning"><i class="fas fa-exclamation-triangle"></i> 2 documents with expired Check-Out</div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="section-title">Quick Actions</div>
+    <div class="quick-actions">
+      <button class="qa-btn primary" onclick="showModal('uploadModal')"><i class="fas fa-upload"></i>Upload Document</button>
+      <button class="qa-btn" onclick="window.location='search.html'"><i class="fas fa-search"></i>Advanced Search</button>
+      <button class="qa-btn" onclick="window.location='workflow.html'"><i class="fas fa-pen-fancy"></i>Request Signature</button>
+      <button class="qa-btn" onclick="showModal('folderModal')"><i class="fas fa-folder-plus"></i>Create Folder from Template</button>
+      <button class="qa-btn" onclick="window.location='library.html'"><i class="fas fa-folder-open"></i>Document Library</button>
+    </div>
+
+    <!-- Two Column Layout -->
+    <div class="two-col">
+
+      <!-- Recent Files -->
+      <div class="card">
+        <div class="card-header">
+          <h3><i class="fas fa-history"></i> My Recent Files</h3>
+          <a href="library.html" class="card-link">View All</a>
+        </div>
+        <div class="recent-files">
+          <div class="file-item">
+            <div class="file-icon word"><i class="fas fa-file-word"></i></div>
+            <div class="file-info">
+              <div class="file-name">Service Agreement – Client ABC.docx</div>
+              <div class="file-meta">Project: ABG-2024 &nbsp;|&nbsp; Edited: 1 hour ago</div>
+            </div>
+            <div class="file-actions">
+              <button title="Open"><i class="fas fa-external-link-alt"></i></button>
+              <button title="Share"><i class="fas fa-share-alt"></i></button>
+            </div>
+          </div>
+          <div class="file-item">
+            <div class="file-icon pdf"><i class="fas fa-file-pdf"></i></div>
+            <div class="file-info">
+              <div class="file-name">Technical Specification v3.2.pdf</div>
+              <div class="file-meta">Project: TECH-2024 &nbsp;|&nbsp; Edited: Yesterday</div>
+            </div>
+            <div class="file-actions">
+              <button title="Open"><i class="fas fa-external-link-alt"></i></button>
+              <button title="Share"><i class="fas fa-share-alt"></i></button>
+            </div>
+          </div>
+          <div class="file-item checkout">
+            <div class="file-icon excel"><i class="fas fa-file-excel"></i></div>
+            <div class="file-info">
+              <div class="file-name">Q4 Budget Planning.xlsx <span class="badge-small checkout">Locked</span></div>
+              <div class="file-meta">Checked out by you &nbsp;|&nbsp; 3 days</div>
+            </div>
+            <div class="file-actions">
+              <button title="Check-In" class="action-checkin"><i class="fas fa-lock-open"></i></button>
+            </div>
+          </div>
+          <div class="file-item">
+            <div class="file-icon ppt"><i class="fas fa-file-powerpoint"></i></div>
+            <div class="file-info">
+              <div class="file-name">Executive Presentation Q4 2024.pptx</div>
+              <div class="file-meta">Department: Marketing &nbsp;|&nbsp; Edited: 2 days ago</div>
+            </div>
+            <div class="file-actions">
+              <button title="Open"><i class="fas fa-external-link-alt"></i></button>
+              <button title="Share"><i class="fas fa-share-alt"></i></button>
+            </div>
+          </div>
+          <div class="file-item">
+            <div class="file-icon pdf"><i class="fas fa-file-pdf"></i></div>
+            <div class="file-info">
+              <div class="file-name">Vendor Contract – Supplier XYZ.pdf</div>
+              <div class="file-meta">Tags: Contract, Legal &nbsp;|&nbsp; Edited: 1 week ago</div>
+            </div>
+            <div class="file-actions">
+              <button title="Open"><i class="fas fa-external-link-alt"></i></button>
+              <button title="Share"><i class="fas fa-share-alt"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Departments & Projects -->
+      <div class="card">
+        <div class="card-header">
+          <h3><i class="fas fa-rocket"></i> Projects</h3>
+          <a href="library.html" class="card-link">View All</a>
+        </div>
+        <div class="dept-grid">
+          <div class="dept-tile" onclick="window.location='spacex.html'" style="--tile-color:#005288">
+            <div class="tile-logo" style="background:#005288"><i class="fas fa-rocket"></i></div>
+            <span>SpaceX</span>
+            <small>3,240 docs</small>
+          </div>
+          <div class="dept-tile" onclick="window.location='library.html'" style="--tile-color:#cc0000">
+            <div class="tile-logo" style="background:#cc0000"><i class="fas fa-microchip"></i></div>
+            <span>Tesla</span>
+            <small>4,810 docs</small>
+          </div>
+          <div class="dept-tile" onclick="window.location='library.html'" style="--tile-color:#0078d4">
+            <div class="tile-logo" style="background:#0078d4"><i class="fab fa-microsoft"></i></div>
+            <span>Microsoft</span>
+            <small>6,330 docs</small>
+          </div>
+          <div class="dept-tile" onclick="window.location='library.html'" style="--tile-color:#ff9900">
+            <div class="tile-logo" style="background:#ff9900"><i class="fab fa-aws"></i></div>
+            <span>Amazon</span>
+            <small>5,120 docs</small>
+          </div>
+          <div class="dept-tile active" onclick="window.location='library.html'" style="--tile-color:#4285f4">
+            <div class="tile-logo" style="background:#4285f4"><i class="fab fa-google"></i></div>
+            <span>Google</span>
+            <small>7,420 docs</small>
+          </div>
+          <div class="dept-tile" onclick="window.location='library.html'" style="--tile-color:#0057e7">
+            <div class="tile-logo" style="background:#0057e7"><i class="fas fa-wind"></i></div>
+            <span>Boeing</span>
+            <small>2,980 docs</small>
+          </div>
+          <div class="dept-tile" onclick="window.location='library.html'" style="--tile-color:#e4002b">
+            <div class="tile-logo" style="background:#e4002b"><i class="fas fa-atom"></i></div>
+            <span>NVIDIA</span>
+            <small>3,670 docs</small>
+          </div>
+          <div class="dept-tile" onclick="window.location='library.html'" style="--tile-color:#1877f2">
+            <div class="tile-logo" style="background:#1877f2"><i class="fas fa-vr-cardboard"></i></div>
+            <span>Meta</span>
+            <small>2,100 docs</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Awaiting My Action -->
+    <div class="card mt-16">
+      <div class="card-header">
+        <h3><i class="fas fa-tasks"></i> Awaiting My Action</h3>
+        <a href="portal.html" class="card-link">View All</a>
+      </div>
+      <div class="action-list">
+        <div class="action-item urgent">
+          <div class="action-icon"><i class="fas fa-signature"></i></div>
+          <div class="action-info">
+            <strong>Signature Required:</strong> Partnership Agreement – J-Comm Ltd.
+            <div class="action-sub">Sent by: Dana Cohen &nbsp;|&nbsp; <span class="urgent-text">Urgent – Due Today</span></div>
+          </div>
+          <button class="btn-action" onclick="window.location='workflow.html'">Sign Now</button>
+        </div>
+        <div class="action-item">
+          <div class="action-icon"><i class="fas fa-check-circle"></i></div>
+          <div class="action-info">
+            <strong>Approval Required:</strong> Server Equipment Purchase Request
+            <div class="action-sub">Sent by: Avi Levi &nbsp;|&nbsp; Pending for 2 days</div>
+          </div>
+          <button class="btn-action" onclick="window.location='workflow.html'">Approve</button>
+        </div>
+        <div class="action-item">
+          <div class="action-icon"><i class="fas fa-eye"></i></div>
+          <div class="action-info">
+            <strong>Review Requested:</strong> New IT Security Policy
+            <div class="action-sub">Sent by: Amit Ben-David &nbsp;|&nbsp; Pending for 5 days</div>
+          </div>
+          <button class="btn-action" onclick="window.location='workflow.html'">Review</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Upload Modal -->
+<div class="modal-overlay" id="uploadModal" onclick="closeModal('uploadModal')">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3><i class="fas fa-upload"></i> Upload New Document</h3>
+      <button onclick="closeModal('uploadModal')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="drop-zone">
+        <i class="fas fa-cloud-upload-alt"></i>
+        <p>Drag & drop files here or <strong>click to browse</strong></p>
+        <small>Supports: Word, PDF, Excel, PowerPoint, Images</small>
+      </div>
+      <div class="form-group">
+        <label>Department / Library</label>
+        <select>
+          <option>Finance</option><option>Engineering</option><option>Legal</option>
+          <option>Marketing</option><option>IT</option><option>HR</option><option>Procurement</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Project</label>
+        <input type="text" placeholder="Enter project name...">
+      </div>
+      <div class="form-group">
+        <label>Tags</label>
+        <input type="text" placeholder="Add tags, comma separated...">
+      </div>
+      <div class="form-group">
+        <label>Change Description (for new version)</label>
+        <textarea placeholder="Describe what changed in this version..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal('uploadModal')">Cancel</button>
+      <button class="btn-primary">Upload Document</button>
+    </div>
+  </div>
+</div>
+
+<!-- Folder Template Modal -->
+<div class="modal-overlay" id="folderModal" onclick="closeModal('folderModal')">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3><i class="fas fa-folder-plus"></i> Create Folder Structure from Template</h3>
+      <button onclick="closeModal('folderModal')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Template</label>
+        <select>
+          <option>Client Project – Standard</option>
+          <option>Internal Project</option>
+          <option>Contract / Agreement</option>
+          <option>Procurement Process</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Board / Project Name</label>
+        <input type="text" placeholder="e.g., Project Alpha">
+      </div>
+      <div class="form-group">
+        <label>Client Name</label>
+        <input type="text" placeholder="Enter client name...">
+      </div>
+      <div class="folder-preview">
+        <p style="font-size:0.8rem;font-weight:600;color:#555;margin-bottom:8px;">Folder Preview</p>
+        <div class="folder-tree">
+          <div class="tree-item"><i class="fas fa-folder"></i> 📁 Project Alpha</div>
+          <div class="tree-item indent"><i class="fas fa-folder"></i> 01_Base_Documents</div>
+          <div class="tree-item indent"><i class="fas fa-folder"></i> 02_Contracts</div>
+          <div class="tree-item indent"><i class="fas fa-folder"></i> 03_Work_Plans</div>
+          <div class="tree-item indent"><i class="fas fa-folder"></i> 04_Correspondence</div>
+          <div class="tree-item indent"><i class="fas fa-folder"></i> 05_Reports</div>
+          <div class="tree-item indent"><i class="fas fa-folder"></i> 06_Approvals_Signatures</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal('folderModal')">Cancel</button>
+      <button class="btn-primary">Create Folders</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>

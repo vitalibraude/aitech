@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpaceX Project – Document Library | SharePoint VSS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo"><i class="fab fa-microsoft"></i><span>SharePoint VSS</span></div>
+    <div class="topnav-search">
+      <i class="fas fa-search"></i>
+      <input type="text" placeholder="Search documents..." id="globalSearch" autocomplete="off">
+      <span class="search-shortcut">Ctrl+K</span>
+    </div>
+    <div class="topnav-actions">
+      <button class="nav-icon-btn"><i class="fas fa-bell"></i><span class="badge">3</span></button>
+      <button class="nav-icon-btn" onclick="showModal('uploadModal')"><i class="fas fa-upload"></i></button>
+      <div class="user-avatar">JS</div>
+    </div>
+  </div>
+</nav>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-toggle">
+      <button class="toggle-btn" id="sidebarToggle" title="Collapse / Expand"><i class="fas fa-chevron-left"></i></button>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="index.html" class="nav-item" data-label="Home"><i class="fas fa-home"></i><span>Home</span></a>
+      <a href="dashboard.html" class="nav-item" data-label="Dashboard"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
+      <a href="portal.html" class="nav-item" data-label="My Portal"><i class="fas fa-user-circle"></i><span>My Portal</span></a>
+      <a href="search.html" class="nav-item" data-label="Advanced Search"><i class="fas fa-search-plus"></i><span>Advanced Search</span></a>
+      <a href="library.html" class="nav-item active" data-label="Document Library"><i class="fas fa-folder-open"></i><span>Document Library</span></a>
+      <a href="workflow.html" class="nav-item" data-label="Signatures & Approvals"><i class="fas fa-signature"></i><span>Signatures & Approvals</span></a>
+      <a href="reports.html" class="nav-item" data-label="Reports"><i class="fas fa-chart-bar"></i><span>Reports</span></a>
+      <div class="nav-divider"></div>
+      <a href="guide.html" class="nav-item" data-label="SharePoint Guide"><i class="fas fa-book"></i><span>SharePoint Guide</span></a>
+    </nav>
+  </aside>
+
+  <main class="main-content" id="mainContent">
+
+    <!-- Page Header -->
+    <div class="page-header">
+      <h2>
+        <div class="project-badge" style="background:#005288"><i class="fas fa-rocket"></i></div>
+        SpaceX – Project Template Rev 3.1
+      </h2>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="qa-btn" onclick="expandAll()"><i class="fas fa-expand-alt"></i> Expand All</button>
+        <button class="qa-btn" onclick="collapseAll()"><i class="fas fa-compress-alt"></i> Collapse All</button>
+        <button class="qa-btn primary" onclick="showModal('uploadModal')"><i class="fas fa-upload"></i> Upload File</button>
+      </div>
+    </div>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+      <a href="index.html"><i class="fas fa-home"></i> Home</a>
+      <span>/</span>
+      <a href="library.html">Document Library</a>
+      <span>/</span>
+      <span class="current"><i class="fas fa-rocket" style="color:#005288"></i> SpaceX</span>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="spacex-stats">
+      <div class="sx-stat">
+        <i class="fas fa-folder" style="color:#005288"></i>
+        <div><strong id="folderCount">0</strong><span>Folders</span></div>
+      </div>
+      <div class="sx-stat">
+        <i class="fas fa-file-alt" style="color:#0078d4"></i>
+        <div><strong>3,240</strong><span>Documents</span></div>
+      </div>
+      <div class="sx-stat">
+        <i class="fas fa-layer-group" style="color:#107c10"></i>
+        <div><strong id="depthCount">0</strong><span>Max Depth</span></div>
+      </div>
+      <div class="sx-stat">
+        <i class="fas fa-clock" style="color:#d83b01"></i>
+        <div><strong>Rev 3.1</strong><span>Template Version</span></div>
+      </div>
+    </div>
+
+    <!-- Two Column Layout -->
+    <div style="display:grid;grid-template-columns:360px 1fr;gap:16px;align-items:start">
+
+      <!-- Folder Tree -->
+      <div class="card" style="padding:0;overflow:hidden">
+        <div class="tree-header">
+          <i class="fas fa-rocket" style="color:#005288"></i>
+          <span>SpaceX / Project Template Rev 3.1</span>
+        </div>
+        <div class="folder-tree-wrap" id="folderTree">
+
+          <!-- ROOT -->
+          <div class="tree-root">
+
+            <!-- 1. Administrative & QA -->
+            <div class="tf-folder" data-depth="1">
+              <div class="tf-row" onclick="toggleFolder(this)">
+                <i class="tf-arrow fas fa-chevron-right"></i>
+                <i class="tf-icon fas fa-folder" style="color:#e8a020"></i>
+                <span class="tf-name">Administrative &amp; QA</span>
+                <span class="tf-count">5 folders</span>
+              </div>
+              <div class="tf-children">
+                <div class="tf-folder" data-depth="2">
+                  <div class="tf-row leaf" onclick="selectFolder(this,'DAL')">
+                    <i class="tf-spacer"></i>
+                    <i class="tf-icon fas fa-folder" style="color:#e8a020"></i>
+                    <span class="tf-name">DAL</span>
+                  </div>
+                </div>
+                <div class="tf-folder" data-depth="2">
+                  <div class="tf-row" onclick="toggleFolder(this)">
+                    <i class="tf-arrow fas fa-chevron-right"></i>
+                    <i class="tf-icon fas fa-folder" style="color:#e8a020"></i>
+                    <span class="tf-name">Design Reviews</span>
+                    <span class="tf-count">2 folders</span>
+                  </div>
+                  <div class="tf-children">
+                    <div class="tf-folder" data-depth="3">
+                      <div class="tf-row leaf" onclick="selectFolder(this,'competitor\'s Data Sheet')">
+                        <i class="tf-spacer"></i>
+                        <i class="tf-icon fas fa-folder" style="color:#e8a020"></i>
+                        <span class="tf-name">Competitor's Data Sheet</span>
+                      </div>
+                    </div>
+                    <div class="tf-folder" data-depth="3">
+                      <div class="tf-row leaf" onclick="selectFolder(this,'Presentation')">
+                        <i class="tf-spacer"></i>
+                        <i class="tf-icon fas fa-folder" style="color:#e8a020"></i>
+                        <span class="tf-name">Presentation</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tf-folder" data-depth="2">
+                  <div class="tf-row leaf" onclick="selectFolder(this,'Minutes of Meeting')">
+                    <i class="tf-spacer"></i>
+                    <i class="tf-icon fas fa-folder" style="color:#e8a020"></i>
+                    <span class="tf-name">Minutes of Meeting</span>
+                  </div>
+                </div>
+                <div class="tf-folder" data-depth="2">
+                  <div class="tf-row" onclick="toggleFolder(this)">
+                    <i class="tf-arrow fas fa-chevron-right"></i>
+                    <i class="tf-icon fas fa-folder" style="color:#e8a020"></i>
+                    <span class="tf-name">Specifications</span>
+                    <span class="tf-count">6 folders</span>
+                  </div>
+                  <div class="tf-children">
+                    <div class="tf-folder" data-depth="3">
+                      <div class="tf-row leaf" onclick="selectFolder(this,'Hardware Specifications')">
+                        <i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i>
+                        <span class="tf-name">Hardware Specifications</span>
+                      </div>
+                    </div>
+                    <div class="tf-folder" data-depth="3">
+                      <div class="tf-row leaf" onclick="selectFolder(this,'High Level Requirements')">
+                        <i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i>
+                        <span class="tf-name">High Level Requirements</span>
+                      </div>
+                    </div>
+                    <div class="tf-folder" data-depth="3">
+                      <div class="tf-row leaf" onclick="selectFolder(this,'PLD Specifications')">
+                        <i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i>
+                        <span class="tf-name">PLD Specifications</span>
+                      </div>
+                    </div>
+                    <div class="tf-folder" data-depth="3">
+                      <div class="tf-row leaf" onclick="selectFolder(this,'Software Specifications')">
+                        <i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i>
+                        <span class="tf-name">Software Specifications</span>
+                      </div>
+                    </div>
+                    <div class="tf-folder" data-depth="3">
+                      <div class="tf-row leaf" onclick="selectFolder(this,'Test Specifications')">
+                        <i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i>
+                        <span class="tf-name">Test Specifications</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. Analyses -->
+            <div class="tf-folder" data-depth="1">
+              <div class="tf-row" onclick="toggleFolder(this)">
+                <i class="tf-arrow fas fa-chevron-right"></i>
+                <i class="tf-icon fas fa-folder" style="color:#e8a020"></i>
+                <span class="tf-name">Analyses</span>
+                <span class="tf-count">5 folders</span>
+              </div>
+              <div class="tf-children">
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'Mechanical')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">Mechanical</span></div></div>
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'Reliability')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">Reliability</span></div></div>
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'Signal Integrity')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">Signal Integrity</span></div></div>
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'Testability')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">Testability</span></div></div>
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'Thermal')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">Thermal</span></div></div>
+              </div>
+            </div>
+
+            <!-- 3. ATP-QTP-FTP -->
+            <div class="tf-folder" data-depth="1">
+              <div class="tf-row" onclick="toggleFolder(this)">
+                <i class="tf-arrow fas fa-chevron-right"></i>
+                <i class="tf-icon fas fa-folder" style="color:#e8a020"></i>
+                <span class="tf-name">ATP-QTP-FTP</span>
+                <span class="tf-count">10 folders</span>
+              </div>
+              <div class="tf-children">
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'ATP')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">ATP</span></div></div>
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'ATP Scripts')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">ATP Scripts</span></div></div>
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'Boundary Scan')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">Boundary Scan</span></div></div>
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'EQTP')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">EQTP</span></div></div>
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'ESS')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">ESS</span></div></div>
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'PDV')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">PDV</span></div></div>
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'QTP')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">QTP</span></div></div>
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'STD')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">STD</span></div></div>
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'Test Cables')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">Test Cables</span></div></div>
+              </div>
+            </div>
+
+            <!-- 4. Correspondence -->
+            <div class="tf-folder" data-depth="1">
+              <div class="tf-row leaf" onclick="selectFolder(this,'Correspondence')">
+                <i class="tf-spacer"></i>
+                <i class="tf-icon fas fa-folder" style="color:#e8a020"></i>
+                <span class="tf-name">Correspondence</span>
+              </div>
+            </div>
+
+            <!-- 5. Electrical Schematics -->
+            <div class="tf-folder" data-depth="1">
+              <div class="tf-row" onclick="toggleFolder(this)">
+                <i class="tf-arrow fas fa-chevron-right"></i>
+                <i class="tf-icon fas fa-folder" style="color:#e8a020"></i>
+                <span class="tf-name">Electrical Schematics</span>
+                <span class="tf-count">3 folders</span>
+              </div>
+              <div class="tf-children">
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'Design Checklist')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">Design Checklist</span></div></div>
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'Netlist')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">Netlist</span></div></div>
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'Rename')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">Rename</span></div></div>
+              </div>
+            </div>
+
+            <!-- 6. Mechanical -->
+            <div class="tf-folder" data-depth="1">
+              <div class="tf-row" onclick="toggleFolder(this)">
+                <i class="tf-arrow fas fa-chevron-right"></i>
+                <i class="tf-icon fas fa-folder" style="color:#e8a020"></i>
+                <span class="tf-name">Mechanical</span>
+                <span class="tf-count">3 folders</span>
+              </div>
+              <div class="tf-children">
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'3D Model')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">3D Model</span></div></div>
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'Drawings')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">Drawings</span></div></div>
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'Outline')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">Outline</span></div></div>
+              </div>
+            </div>
+
+            <!-- 7. PCB Design -->
+            <div class="tf-folder" data-depth="1">
+              <div class="tf-row" onclick="toggleFolder(this)">
+                <i class="tf-arrow fas fa-chevron-right"></i>
+                <i class="tf-icon fas fa-folder" style="color:#e8a020"></i>
+                <span class="tf-name">PCB Design</span>
+                <span class="tf-count">7 folders</span>
+              </div>
+              <div class="tf-children">
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'Constraint Files')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">Constraint Files</span></div></div>
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'Fabrication')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">Fabrication</span></div></div>
+                <div class="tf-folder" data-depth="2">
+                  <div class="tf-row" onclick="toggleFolder(this)">
+                    <i class="tf-arrow fas fa-chevron-right"></i>
+                    <i class="tf-icon fas fa-folder" style="color:#e8a020"></i>
+                    <span class="tf-name">Gerber</span>
+                    <span class="tf-count">2 folders</span>
+                  </div>
+                  <div class="tf-children">
+                    <div class="tf-folder" data-depth="3"><div class="tf-row leaf" onclick="selectFolder(this,'Assembly Drawing')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">Assembly Drawing</span></div></div>
+                    <div class="tf-folder" data-depth="3"><div class="tf-row leaf" onclick="selectFolder(this,'Gerber Files')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">Gerber Files</span></div></div>
+                  </div>
+                </div>
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'Layout')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">Layout</span></div></div>
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'Libraries')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">Libraries</span></div></div>
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'Pick and Place')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">Pick and Place</span></div></div>
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'Symbols')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">Symbols</span></div></div>
+              </div>
+            </div>
+
+            <!-- 8. Procurement -->
+            <div class="tf-folder" data-depth="1">
+              <div class="tf-row" onclick="toggleFolder(this)">
+                <i class="tf-arrow fas fa-chevron-right"></i>
+                <i class="tf-icon fas fa-folder" style="color:#e8a020"></i>
+                <span class="tf-name">Procurement</span>
+                <span class="tf-count">4 folders</span>
+              </div>
+              <div class="tf-children">
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'BOM')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">BOM</span></div></div>
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'Components Datasheets')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">Components Datasheets</span></div></div>
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'Purchase Orders')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">Purchase Orders</span></div></div>
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'Vendor Quotes')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">Vendor Quotes</span></div></div>
+              </div>
+            </div>
+
+            <!-- 9. Software -->
+            <div class="tf-folder" data-depth="1">
+              <div class="tf-row" onclick="toggleFolder(this)">
+                <i class="tf-arrow fas fa-chevron-right"></i>
+                <i class="tf-icon fas fa-folder" style="color:#e8a020"></i>
+                <span class="tf-name">Software</span>
+                <span class="tf-count">4 folders</span>
+              </div>
+              <div class="tf-children">
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'BIOS')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">BIOS</span></div></div>
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'Drivers')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">Drivers</span></div></div>
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'Firmware')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">Firmware</span></div></div>
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'Source Code')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">Source Code</span></div></div>
+              </div>
+            </div>
+
+            <!-- 10. System Engineering -->
+            <div class="tf-folder" data-depth="1">
+              <div class="tf-row" onclick="toggleFolder(this)">
+                <i class="tf-arrow fas fa-chevron-right"></i>
+                <i class="tf-icon fas fa-folder" style="color:#e8a020"></i>
+                <span class="tf-name">System Engineering</span>
+                <span class="tf-count">3 folders</span>
+              </div>
+              <div class="tf-children">
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'Architecture')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">Architecture</span></div></div>
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'Interface Control')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">Interface Control</span></div></div>
+                <div class="tf-folder" data-depth="2"><div class="tf-row leaf" onclick="selectFolder(this,'System Diagrams')"><i class="tf-spacer"></i><i class="tf-icon fas fa-folder" style="color:#e8a020"></i><span class="tf-name">System Diagrams</span></div></div>
+              </div>
+            </div>
+
+          </div><!-- end tree-root -->
+        </div><!-- end folder-tree-wrap -->
+      </div><!-- end tree card -->
+
+      <!-- Right Panel – Selected Folder Contents -->
+      <div id="folderPanel">
+        <div class="card" id="welcomePanel">
+          <div style="text-align:center;padding:48px 20px;color:#aaa">
+            <div style="font-size:3.5rem;margin-bottom:16px">🚀</div>
+            <div style="font-size:1rem;font-weight:600;color:#555;margin-bottom:8px">SpaceX – Project Template Rev 3.1</div>
+            <div style="font-size:0.84rem;color:#aaa">Select a folder from the tree to view its contents</div>
+            <div style="display:flex;gap:10px;justify-content:center;margin-top:20px;flex-wrap:wrap">
+              <span class="tag active" style="font-size:0.75rem"><i class="fas fa-rocket"></i> SpaceX</span>
+              <span class="tag" style="font-size:0.75rem">Rev 3.1</span>
+              <span class="tag" style="font-size:0.75rem">Board Template</span>
+              <span class="tag" style="font-size:0.75rem">Engineering</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" id="contentPanel" style="display:none">
+          <div class="card-header">
+            <h3 id="panelTitle"><i class="fas fa-folder-open" style="color:#e8a020"></i> <span id="panelFolderName">–</span></h3>
+            <div style="display:flex;gap:8px">
+              <button class="tbl-btn outline" onclick="showModal('uploadModal')"><i class="fas fa-upload"></i> Upload</button>
+              <button class="tbl-btn outline" onclick="showModal('shareModal')"><i class="fas fa-share-alt"></i> Share</button>
+            </div>
+          </div>
+
+          <!-- Folder path -->
+          <div id="panelPath" style="font-size:0.76rem;color:#999;margin-bottom:14px;display:flex;align-items:center;gap:6px">
+            <i class="fas fa-folder" style="color:#005288"></i>
+            <span>SpaceX / Project Template Rev 3.1 / <strong id="panelPathText">–</strong></span>
+          </div>
+
+          <!-- Tag info -->
+          <div class="alert alert-info" style="margin-bottom:14px">
+            <i class="fas fa-tags"></i>
+            <span>Folder tags: <strong>SpaceX</strong>, <strong id="panelTagFolder">–</strong> — automatically inherited by all files inside this folder.</span>
+          </div>
+
+          <!-- File table -->
+          <div class="table-wrap">
+            <table class="doc-table">
+              <thead>
+                <tr>
+                  <th><input type="checkbox"></th>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>Version</th>
+                  <th>Modified</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="panelFileList">
+                <!-- injected by JS -->
+              </tbody>
+            </table>
+          </div>
+          <div class="table-footer">
+            <small style="color:#999" id="panelFileCount">0 files</small>
+            <button class="qa-btn" style="padding:6px 14px;font-size:0.8rem" onclick="showModal('uploadModal')">
+              <i class="fas fa-plus"></i> Add File
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end grid -->
+  </main>
+</div>
+
+<!-- Upload Modal -->
+<div class="modal-overlay" id="uploadModal" onclick="closeModal('uploadModal')">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3><i class="fas fa-upload"></i> Upload to SpaceX Project</h3>
+      <button onclick="closeModal('uploadModal')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="drop-zone">
+        <i class="fas fa-cloud-upload-alt"></i>
+        <p>Drag & drop files here or <strong>click to browse</strong></p>
+        <small>Supports: Word, PDF, Excel, PowerPoint, CAD, Images</small>
+      </div>
+      <div class="form-group">
+        <label>Target Folder</label>
+        <input type="text" id="uploadTarget" placeholder="Select a folder from the tree first...">
+      </div>
+      <div class="form-group">
+        <label>Change Description <span style="color:var(--danger)">*</span></label>
+        <textarea placeholder="Describe what changed in this version..."></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Tags (inherited from folder)</label>
+          <input type="text" id="uploadTags" value="SpaceX" readonly style="background:#f5f5f5">
+        </div>
+        <div class="form-group">
+          <label>Version Label</label>
+          <input type="text" placeholder="e.g., v1.0">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal('uploadModal')">Cancel</button>
+      <button class="btn-primary" onclick="closeModal('uploadModal');showToast('File uploaded to SpaceX project','success')">Upload</button>
+    </div>
+  </div>
+</div>
+
+<!-- Share Modal -->
+<div class="modal-overlay" id="shareModal" onclick="closeModal('shareModal')">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3><i class="fas fa-share-alt"></i> Share Folder</h3>
+      <button onclick="closeModal('shareModal')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Share Link</label>
+        <div style="display:flex;gap:8px">
+          <input type="text" value="https://company.sharepoint.com/sites/vss/spacex/..." readonly style="background:#f5f5f5">
+          <button class="btn-primary" onclick="showToast('Link copied!','success')" style="white-space:nowrap">Copy</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Expiry</label>
+        <select><option>14 Days (Default)</option><option>7 Days</option><option>30 Days</option></select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal('shareModal')">Cancel</button>
+      <button class="btn-primary" onclick="closeModal('shareModal');showToast('Share link created','success')">Create Link</button>
+    </div>
+  </div>
+</div>
+
+<style>
+/* ===== PROJECT BADGE ===== */
+.project-badge {
+  width: 36px; height: 36px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 1rem; flex-shrink: 0;
+}
+
+/* ===== SPACEX STATS ===== */
+.spacex-stats {
+  display: flex; gap: 14px; margin-bottom: 16px; flex-wrap: wrap;
+}
+.sx-stat {
+  background: white; border-radius: 10px;
+  padding: 14px 20px;
+  display: flex; align-items: center; gap: 14px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  border: 1px solid #edf0f7; flex: 1; min-width: 140px;
+}
+.sx-stat i { font-size: 1.4rem; }
+.sx-stat div { display: flex; flex-direction: column; }
+.sx-stat strong { font-size: 1.3rem; font-weight: 700; color: #1a1a2e; line-height: 1; }
+.sx-stat span { font-size: 0.72rem; color: #aaa; font-weight: 500; margin-top: 3px; }
+
+/* ===== TREE HEADER ===== */
+.tree-header {
+  background: linear-gradient(135deg, #003a6b, #005288);
+  color: white; padding: 14px 16px;
+  display: flex; align-items: center; gap: 10px;
+  font-size: 0.86rem; font-weight: 600;
+}
+
+/* ===== FOLDER TREE ===== */
+.folder-tree-wrap {
+  max-height: calc(100vh - 280px);
+  overflow-y: auto;
+  padding: 10px 0;
+}
+.tree-root { padding: 0; }
+
+.tf-folder { position: relative; }
+.tf-children {
+  display: none;
+  padding-left: 20px;
+  border-left: 1.5px dashed #e0e8f0;
+  margin-left: 18px;
+}
+.tf-folder.open > .tf-children { display: block; }
+
+.tf-row {
+  display: flex; align-items: center;
+  gap: 8px; padding: 7px 14px;
+  cursor: pointer; border-radius: 0;
+  transition: background 0.15s;
+  font-size: 0.84rem; color: #333;
+  border-left: 2px solid transparent;
+  position: relative;
+}
+.tf-row:hover { background: #f0f6ff; color: #0078d4; }
+.tf-row:hover .tf-icon { color: #e8b020 !important; }
+.tf-row.selected {
+  background: #e8f0fe;
+  color: #0078d4;
+  border-left-color: #0078d4;
+  font-weight: 600;
+}
+
+.tf-arrow {
+  font-size: 0.6rem; color: #bbb;
+  width: 12px; flex-shrink: 0;
+  transition: transform 0.2s;
+}
+.tf-folder.open > .tf-row > .tf-arrow { transform: rotate(90deg); color: #0078d4; }
+.tf-spacer { width: 12px; flex-shrink: 0; }
+.tf-icon { font-size: 0.9rem; flex-shrink: 0; transition: color 0.15s; }
+.tf-name { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tf-count {
+  font-size: 0.68rem; color: #bbb; font-weight: 400;
+  background: #f0f4f8; padding: 1px 7px; border-radius: 10px;
+  flex-shrink: 0;
+}
+
+/* Depth indent colors for left border */
+.tf-folder[data-depth="1"] > .tf-row.selected { border-left-color: #005288; }
+.tf-folder[data-depth="2"] > .tf-row.selected { border-left-color: #0078d4; }
+.tf-folder[data-depth="3"] > .tf-row.selected { border-left-color: #00a4ef; }
+</style>
+
+<script src="js/main.js"></script>
+<script>
+// Sample mock files per folder category
+const mockFiles = {
+  default: [
+    { name: 'README.txt', type: 'txt', version: 'v1.0', date: '01/03/2024' },
+    { name: 'Template Index.xlsx', type: 'excel', version: 'v2.1', date: '05/03/2024' },
+  ],
+  'DAL': [
+    { name: 'DAL_Plan_v1.2.pdf', type: 'pdf', version: 'v1.2', date: '10/02/2024' },
+    { name: 'DAL_Checklist.docx', type: 'word', version: 'v1.0', date: '15/02/2024' },
+  ],
+  'Hardware Specifications': [
+    { name: 'HW_Spec_Board_Rev3.pdf', type: 'pdf', version: 'v3.0', date: '20/02/2024' },
+    { name: 'Power_Requirements.docx', type: 'word', version: 'v1.5', date: '22/02/2024' },
+    { name: 'Interface_Specs.xlsx', type: 'excel', version: 'v2.0', date: '25/02/2024' },
+  ],
+  'Software Specifications': [
+    { name: 'SW_Spec_v2.4.pdf', type: 'pdf', version: 'v2.4', date: '18/02/2024' },
+    { name: 'API_Reference.docx', type: 'word', version: 'v1.1', date: '20/02/2024' },
+  ],
+  'Mechanical': [
+    { name: 'Mech_Analysis_Report.pdf', type: 'pdf', version: 'v1.0', date: '12/02/2024' },
+    { name: 'Stress_Analysis.xlsx', type: 'excel', version: 'v1.3', date: '14/02/2024' },
+    { name: 'Thermal_Model.pdf', type: 'pdf', version: 'v2.0', date: '16/02/2024' },
+  ],
+  'Thermal': [
+    { name: 'Thermal_Analysis_v1.pdf', type: 'pdf', version: 'v1.0', date: '08/02/2024' },
+    { name: 'Thermal_Simulation.xlsx', type: 'excel', version: 'v1.1', date: '10/02/2024' },
+  ],
+  'BOM': [
+    { name: 'BOM_Rev3.1.xlsx', type: 'excel', version: 'v3.1', date: '01/03/2024' },
+    { name: 'BOM_Approved.pdf', type: 'pdf', version: 'v2.0', date: '28/02/2024' },
+  ],
+  'ATP': [
+    { name: 'ATP_Procedure_v2.pdf', type: 'pdf', version: 'v2.0', date: '05/03/2024' },
+    { name: 'ATP_Results_Mar24.xlsx', type: 'excel', version: 'v1.0', date: '06/03/2024' },
+  ],
+  'Firmware': [
+    { name: 'FW_v1.4.2_release_notes.pdf', type: 'pdf', version: 'v1.4.2', date: '07/03/2024' },
+    { name: 'FW_Loader_Guide.docx', type: 'word', version: 'v1.0', date: '05/03/2024' },
+  ],
+  'Gerber Files': [
+    { name: 'Board_Rev3_Gerber.zip', type: 'zip', version: 'v3.0', date: '02/03/2024' },
+    { name: 'Assembly_Drawing_Rev3.pdf', type: 'pdf', version: 'v3.0', date: '02/03/2024' },
+  ],
+};
+
+const typeIcons = {
+  pdf:   '<i class="fas fa-file-pdf doc-type-icon pdf"></i>',
+  word:  '<i class="fas fa-file-word doc-type-icon word"></i>',
+  excel: '<i class="fas fa-file-excel doc-type-icon excel"></i>',
+  ppt:   '<i class="fas fa-file-powerpoint doc-type-icon ppt"></i>',
+  zip:   '<i class="fas fa-file-archive" style="color:#888;margin-right:8px"></i>',
+  txt:   '<i class="fas fa-file-alt" style="color:#888;margin-right:8px"></i>',
+};
+
+function toggleFolder(row) {
+  const folder = row.closest('.tf-folder');
+  folder.classList.toggle('open');
+}
+
+function selectFolder(row, name) {
+  // Deselect all
+  document.querySelectorAll('.tf-row.selected').forEach(r => r.classList.remove('selected'));
+  row.classList.add('selected');
+
+  // Open parent folder if needed
+  const parentFolder = row.closest('.tf-folder');
+  if (parentFolder) parentFolder.classList.add('open');
+
+  // Show content panel
+  document.getElementById('welcomePanel').style.display = 'none';
+  const panel = document.getElementById('contentPanel');
+  panel.style.display = 'block';
+
+  document.getElementById('panelFolderName').textContent = name;
+  document.getElementById('panelPathText').textContent = name;
+  document.getElementById('panelTagFolder').textContent = name;
+
+  // Upload target
+  const uploadInput = document.getElementById('uploadTarget');
+  if (uploadInput) uploadInput.value = `SpaceX / ${name}`;
+
+  // Render files
+  const files = mockFiles[name] || mockFiles['default'];
+  const tbody = document.getElementById('panelFileList');
+  tbody.innerHTML = files.map(f => `
+    <tr>
+      <td><input type="checkbox"></td>
+      <td>${typeIcons[f.type] || typeIcons['txt']} ${f.name}</td>
+      <td><span style="font-size:0.75rem;color:#888;text-transform:uppercase">${f.type.toUpperCase()}</span></td>
+      <td><span class="version-badge">${f.version}</span></td>
+      <td>${f.date}</td>
+      <td style="display:flex;gap:4px">
+        <button class="tbl-btn" onclick="showToast('Opening ${f.name}','info')">Open</button>
+        <button class="tbl-btn outline" onclick="showToast('Link copied','success')"><i class="fas fa-share-alt"></i></button>
+      </td>
+    </tr>
+  `).join('');
+
+  document.getElementById('panelFileCount').textContent = `${files.length} file${files.length !== 1 ? 's' : ''}`;
+}
+
+function expandAll() {
+  document.querySelectorAll('.tf-folder').forEach(f => f.classList.add('open'));
+  countStats();
+}
+function collapseAll() {
+  document.querySelectorAll('.tf-folder').forEach(f => f.classList.remove('open'));
+}
+
+function countStats() {
+  const folders = document.querySelectorAll('.tf-folder').length;
+  document.getElementById('folderCount').textContent = folders;
+  const depths = Array.from(document.querySelectorAll('.tf-folder')).map(f => parseInt(f.dataset.depth) || 1);
+  document.getElementById('depthCount').textContent = Math.max(...depths);
+}
+
+// Count on load
+window.addEventListener('load', countStats);
+</script>
+</body>
+</html>

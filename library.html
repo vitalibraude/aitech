@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document Library – DMS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo"><i class="fab fa-microsoft"></i><span>SharePoint VSS</span></div>
+    <div class="topnav-search">
+      <i class="fas fa-search"></i>
+      <input type="text" placeholder="Search documents..." id="globalSearch" autocomplete="off">
+      <span class="search-shortcut">Ctrl+K</span>
+    </div>
+    <div class="topnav-actions">
+      <button class="nav-icon-btn"><i class="fas fa-bell"></i><span class="badge">3</span></button>
+      <button class="nav-icon-btn" onclick="showModal('uploadModal')"><i class="fas fa-upload"></i></button>
+      <div class="user-avatar">JS</div>
+    </div>
+  </div>
+</nav>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-toggle">
+      <button class="toggle-btn" id="sidebarToggle" title="Collapse / Expand"><i class="fas fa-chevron-left"></i></button>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="index.html" class="nav-item" data-label="Home"><i class="fas fa-home"></i><span>Home</span></a>
+      <a href="dashboard.html" class="nav-item" data-label="Dashboard"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
+      <a href="portal.html" class="nav-item" data-label="My Portal"><i class="fas fa-user-circle"></i><span>My Portal</span></a>
+      <a href="search.html" class="nav-item" data-label="Advanced Search"><i class="fas fa-search-plus"></i><span>Advanced Search</span></a>
+      <a href="library.html" class="nav-item active" data-label="Document Library"><i class="fas fa-folder-open"></i><span>Document Library</span></a>
+      <a href="workflow.html" class="nav-item" data-label="Signatures & Approvals"><i class="fas fa-signature"></i><span>Signatures & Approvals</span></a>
+      <a href="reports.html" class="nav-item" data-label="Reports"><i class="fas fa-chart-bar"></i><span>Reports</span></a>
+      <div class="nav-divider"></div>
+      <a href="guide.html" class="nav-item" data-label="SharePoint Guide"><i class="fas fa-book"></i><span>SharePoint Guide</span></a>
+    </nav>
+  </aside>
+  <main class="main-content" id="mainContent">
+
+    <div class="page-header">
+      <h2><i class="fas fa-folder-open" style="color:var(--accent)"></i> Document Library</h2>
+      <div style="display:flex;gap:8px">
+        <button class="qa-btn primary" onclick="showModal('uploadModal')"><i class="fas fa-upload"></i> Upload</button>
+        <button class="qa-btn" onclick="showModal('folderModal')"><i class="fas fa-folder-plus"></i> New Folder</button>
+        <button class="qa-btn" onclick="showModal('shareModal')"><i class="fas fa-share-alt"></i> Share</button>
+      </div>
+    </div>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+      <a href="library.html"><i class="fas fa-home"></i> Library Root</a>
+      <span>/</span>
+      <a href="#">Engineering</a>
+      <span>/</span>
+      <span class="current">Project Alpha – Documents</span>
+    </div>
+
+    <div style="display:grid;grid-template-columns:260px 1fr;gap:16px">
+
+      <!-- Folder Tree Sidebar -->
+      <div class="card" style="padding:16px">
+        <div style="font-size:0.8rem;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:12px">Folder Structure</div>
+        <div class="lib-tree">
+          <div class="lib-folder open">
+            <span><i class="fas fa-folder-open folder-icon"></i> Engineering</span>
+          </div>
+          <div class="lib-folder active" style="padding-left:18px">
+            <span><i class="fas fa-folder-open folder-icon"></i> Project Alpha</span>
+          </div>
+          <div class="lib-folder" style="padding-left:36px" onclick="this.classList.toggle('active')">
+            <span><i class="fas fa-folder folder-icon"></i> 01_Base_Documents</span>
+          </div>
+          <div class="lib-folder" style="padding-left:36px">
+            <span><i class="fas fa-folder folder-icon"></i> 02_Contracts</span>
+          </div>
+          <div class="lib-folder" style="padding-left:36px">
+            <span><i class="fas fa-folder folder-icon"></i> 03_Work_Plans</span>
+          </div>
+          <div class="lib-folder" style="padding-left:36px">
+            <span><i class="fas fa-folder folder-icon"></i> 04_Correspondence</span>
+          </div>
+          <div class="lib-folder" style="padding-left:36px">
+            <span><i class="fas fa-folder folder-icon"></i> 05_Reports</span>
+          </div>
+          <div class="lib-folder" style="padding-left:36px">
+            <span><i class="fas fa-folder folder-icon"></i> 06_Approvals_Signatures</span>
+          </div>
+          <div class="lib-folder" style="padding-left:18px">
+            <span><i class="fas fa-folder folder-icon"></i> Project Beta</span>
+          </div>
+          <div class="lib-folder">
+            <span><i class="fas fa-folder folder-icon"></i> Finance</span>
+          </div>
+          <div class="lib-folder">
+            <span><i class="fas fa-folder folder-icon"></i> Legal</span>
+          </div>
+          <div class="lib-folder">
+            <span><i class="fas fa-folder folder-icon"></i> Marketing</span>
+          </div>
+          <div class="lib-folder">
+            <span><i class="fas fa-folder folder-icon"></i> HR</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Document List -->
+      <div class="card" style="padding:0">
+        <!-- Toolbar -->
+        <div style="padding:14px 16px;border-bottom:1px solid #f0f2f5;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <input type="text" placeholder="Filter files..." style="padding:7px 12px;border:1.5px solid #dde;border-radius:7px;font-family:Inter;font-size:0.83rem;width:200px">
+          <select class="filter-select"><option>All Types</option><option>PDF</option><option>Word</option><option>Excel</option></select>
+          <select class="filter-select"><option>All Versions</option><option>Latest Only</option><option>Released</option></select>
+          <div style="margin-left:auto;display:flex;gap:6px">
+            <button class="tbl-btn outline" title="List View"><i class="fas fa-list"></i></button>
+            <button class="tbl-btn outline" title="Grid View"><i class="fas fa-th-large"></i></button>
+          </div>
+        </div>
+
+        <!-- Folder tag info -->
+        <div class="alert alert-info" style="margin:10px 16px;margin-bottom:0">
+          <i class="fas fa-tags"></i>
+          <span>Folder tags: <strong>Engineering</strong>, <strong>Project Alpha</strong>, <strong>Q4-2024</strong> — All files inside inherit these tags automatically.</span>
+        </div>
+
+        <div class="table-wrap" style="padding:0 0 4px">
+          <table class="doc-table">
+            <thead>
+              <tr>
+                <th><input type="checkbox"></th>
+                <th>Name</th>
+                <th>Version</th>
+                <th>Status</th>
+                <th>Modified By</th>
+                <th>Modified</th>
+                <th>Tags</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td><i class="fas fa-file-word doc-type-icon word"></i> Project Charter Alpha.docx</td>
+                <td><span class="version-badge">v2.1</span> <span class="version-label released">Released</span></td>
+                <td><span class="status-badge signed">Approved</span></td>
+                <td>John Smith</td>
+                <td>06/03/2024</td>
+                <td><span class="tag" style="padding:2px 7px;font-size:0.68rem">Engineering</span></td>
+                <td><div style="display:flex;gap:4px">
+                  <button class="tbl-btn" title="Open">Open</button>
+                  <button class="tbl-btn outline" title="Version History" onclick="showModal('versionModal')"><i class="fas fa-history"></i></button>
+                  <button class="tbl-btn outline" title="Check Out" onclick="showToast('Document checked out successfully','success')"><i class="fas fa-lock"></i></button>
+                </div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td>
+                  <i class="fas fa-file-pdf doc-type-icon pdf"></i> Technical Spec v3.2.pdf
+                  <span class="auto-release-badge" title="Auto-release in 45 days"><i class="fas fa-clock"></i> 45d</span>
+                </td>
+                <td><span class="version-badge">v3.2</span></td>
+                <td><span class="status-badge inprogress">In Review</span></td>
+                <td>Lisa Park</td>
+                <td>05/03/2024</td>
+                <td><span class="tag" style="padding:2px 7px;font-size:0.68rem">Technical</span></td>
+                <td><div style="display:flex;gap:4px">
+                  <button class="tbl-btn" title="Open">Open</button>
+                  <button class="tbl-btn outline" onclick="showModal('versionModal')"><i class="fas fa-history"></i></button>
+                  <button class="tbl-btn outline"><i class="fas fa-lock"></i></button>
+                </div></td>
+              </tr>
+              <tr class="checkout-row">
+                <td><input type="checkbox"></td>
+                <td>
+                  <i class="fas fa-file-excel doc-type-icon excel"></i> Budget Tracker Q4.xlsx
+                  <span class="checkout-indicator"><i class="fas fa-lock"></i> Locked – John Smith</span>
+                </td>
+                <td><span class="version-badge">v1.4</span></td>
+                <td><span class="status-badge checkout">Checked Out</span></td>
+                <td>John Smith</td>
+                <td>04/03/2024</td>
+                <td><span class="tag" style="padding:2px 7px;font-size:0.68rem">Finance</span></td>
+                <td><div style="display:flex;gap:4px">
+                  <button class="tbl-btn" title="View Read-Only">View</button>
+                  <button class="tbl-btn outline" onclick="showModal('versionModal')"><i class="fas fa-history"></i></button>
+                  <button class="tbl-btn danger" onclick="showToast('Document checked in','success')"><i class="fas fa-lock-open"></i></button>
+                </div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td><i class="fas fa-file-powerpoint doc-type-icon ppt"></i> Executive Presentation Q4.pptx</td>
+                <td><span class="version-badge">v1.0</span> <span class="version-label released">Released</span></td>
+                <td><span class="status-badge signed">Approved</span></td>
+                <td>Tom Williams</td>
+                <td>02/03/2024</td>
+                <td><span class="tag" style="padding:2px 7px;font-size:0.68rem">Marketing</span></td>
+                <td><div style="display:flex;gap:4px">
+                  <button class="tbl-btn">Open</button>
+                  <button class="tbl-btn outline" onclick="showModal('versionModal')"><i class="fas fa-history"></i></button>
+                  <button class="tbl-btn outline"><i class="fas fa-lock"></i></button>
+                </div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td>
+                  <i class="fas fa-file-pdf doc-type-icon pdf"></i> Risk Assessment Report.pdf
+                  <span class="auto-release-badge warning" title="Auto-release in 8 days"><i class="fas fa-exclamation-triangle"></i> 8d</span>
+                </td>
+                <td><span class="version-badge">v2.0</span></td>
+                <td><span class="status-badge pending">Draft</span></td>
+                <td>Anna Clarke</td>
+                <td>28/02/2024</td>
+                <td><span class="tag" style="padding:2px 7px;font-size:0.68rem">Risk</span></td>
+                <td><div style="display:flex;gap:4px">
+                  <button class="tbl-btn">Open</button>
+                  <button class="tbl-btn outline" onclick="showModal('versionModal')"><i class="fas fa-history"></i></button>
+                  <button class="tbl-btn outline"><i class="fas fa-lock"></i></button>
+                </div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="table-footer" style="padding:12px 16px">
+          <small style="color:#999">5 files | 3 folders | Folder size: 48 MB</small>
+          <div class="pagination">
+            <button class="page-btn active">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Version History Modal -->
+<div class="modal-overlay" id="versionModal" onclick="closeModal('versionModal')">
+  <div class="modal" onclick="event.stopPropagation()" style="width:600px">
+    <div class="modal-header">
+      <h3><i class="fas fa-history"></i> Version History – Project Charter Alpha.docx</h3>
+      <button onclick="closeModal('versionModal')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body" style="padding:16px 20px">
+      <table class="doc-table">
+        <thead><tr><th>Version</th><th>Modified</th><th>By</th><th>Change Description</th><th>Status</th><th></th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>v2.1</strong> <span class="version-label released">Current</span></td>
+            <td>06/03/2024</td>
+            <td>John Smith</td>
+            <td>Updated scope section, added risk matrix</td>
+            <td><span class="status-badge signed">Released</span></td>
+            <td><button class="tbl-btn outline">Download</button></td>
+          </tr>
+          <tr>
+            <td>v2.0</td>
+            <td>01/03/2024</td>
+            <td>John Smith</td>
+            <td>Added stakeholder list and timeline</td>
+            <td><span class="status-badge inprogress">Archived</span></td>
+            <td><button class="tbl-btn outline">Download</button></td>
+          </tr>
+          <tr>
+            <td>v1.1</td>
+            <td>22/02/2024</td>
+            <td>Lisa Park</td>
+            <td>Fixed typos and reformatted headers</td>
+            <td><span class="status-badge inprogress">Archived</span></td>
+            <td><button class="tbl-btn outline">Download</button></td>
+          </tr>
+          <tr>
+            <td>v1.0</td>
+            <td>14/02/2024</td>
+            <td>John Smith</td>
+            <td>Initial draft created</td>
+            <td><span class="status-badge inprogress">Archived</span></td>
+            <td><button class="tbl-btn outline">Download</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal('versionModal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Upload Modal -->
+<div class="modal-overlay" id="uploadModal" onclick="closeModal('uploadModal')">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3><i class="fas fa-upload"></i> Upload New Document</h3>
+      <button onclick="closeModal('uploadModal')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="drop-zone">
+        <i class="fas fa-cloud-upload-alt"></i>
+        <p>Drag & drop files here or <strong>click to browse</strong></p>
+        <small>Supports: Word, PDF, Excel, PowerPoint, Images</small>
+      </div>
+      <div class="form-group">
+        <label>Change Description <span style="color:var(--danger)">*</span></label>
+        <textarea placeholder="Required: Describe what changed in this version..."></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Tags</label>
+          <input type="text" placeholder="Add tags, comma separated...">
+        </div>
+        <div class="form-group">
+          <label>Version Label</label>
+          <input type="text" placeholder="e.g., v2.0">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal('uploadModal')">Cancel</button>
+      <button class="btn-primary" onclick="closeModal('uploadModal');showToast('Document uploaded successfully','success')">Upload</button>
+    </div>
+  </div>
+</div>
+
+<!-- Share Modal -->
+<div class="modal-overlay" id="shareModal" onclick="closeModal('shareModal')">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3><i class="fas fa-share-alt"></i> Share Document</h3>
+      <button onclick="closeModal('shareModal')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Share Link</label>
+        <div style="display:flex;gap:8px">
+          <input type="text" value="https://company.sharepoint.com/sites/dms/shared/..." readonly style="background:#f5f5f5">
+          <button class="btn-primary" onclick="showToast('Link copied to clipboard','success')" style="white-space:nowrap">Copy Link</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Link Expiry <span style="color:#999;font-weight:400">(default: 14 days)</span></label>
+        <select><option>14 Days (Default)</option><option>7 Days</option><option>30 Days</option><option>No Expiry (Internal Only)</option></select>
+      </div>
+      <div class="form-group">
+        <label>Permission Level</label>
+        <select><option>View Only</option><option>Can Edit</option><option>Can Download</option></select>
+      </div>
+      <div class="form-group">
+        <label><input type="checkbox" checked style="margin-right:8px">Track download confirmation</label>
+      </div>
+      <div class="alert alert-warning" style="margin-bottom:0">
+        <i class="fas fa-exclamation-triangle"></i>
+        External users can access via this link without creating a guest account.
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal('shareModal')">Cancel</button>
+      <button class="btn-primary" onclick="closeModal('shareModal');showToast('Secure share link created','success')">Create Share Link</button>
+    </div>
+  </div>
+</div>
+
+<!-- Folder Modal -->
+<div class="modal-overlay" id="folderModal" onclick="closeModal('folderModal')">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3><i class="fas fa-folder-plus"></i> Create New Folder</h3>
+      <button onclick="closeModal('folderModal')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label>Folder Name</label><input type="text" placeholder="Enter folder name..."></div>
+      <div class="form-group">
+        <label>Assign Tags to Folder <small style="color:#999">(will be inherited by all files inside)</small></label>
+        <input type="text" placeholder="Add tags, comma separated...">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal('folderModal')">Cancel</button>
+      <button class="btn-primary" onclick="closeModal('folderModal');showToast('Folder created','success')">Create Folder</button>
+    </div>
+  </div>
+</div>
+
+<style>
+.breadcrumb { display:flex; align-items:center; gap:8px; font-size:0.82rem; color:#888; margin-bottom:14px; }
+.breadcrumb a { color:var(--accent); text-decoration:none; }
+.breadcrumb a:hover { text-decoration:underline; }
+.breadcrumb .current { color:#333; font-weight:600; }
+.lib-tree { display:flex; flex-direction:column; gap:2px; }
+.lib-folder {
+  display:flex; align-items:center; gap:8px;
+  padding:7px 10px; border-radius:7px;
+  cursor:pointer; font-size:0.83rem; color:#444;
+  transition: background 0.15s;
+}
+.lib-folder:hover { background:#f0f6ff; color:var(--accent); }
+.lib-folder.active { background:#e8f0fe; color:var(--accent); font-weight:600; }
+.folder-icon { color:#e8a020; }
+.lib-folder.active .folder-icon { color:#e8a020; }
+.version-badge {
+  background:#e8f0fe; color:#0f3460;
+  padding:2px 7px; border-radius:4px;
+  font-size:0.72rem; font-weight:700;
+}
+.version-label {
+  font-size:0.68rem; padding:2px 6px; border-radius:4px; font-weight:600;
+}
+.version-label.released { background:#d1e7dd; color:#0a3622; }
+.checkout-row td { background:#fff8f5 !important; }
+.checkout-indicator { font-size:0.71rem; color:#d83b01; font-weight:600; margin-left:8px; }
+.auto-release-badge {
+  font-size:0.68rem; padding:2px 6px; border-radius:4px;
+  background:#e8f0fe; color:#0f3460; font-weight:600; margin-left:6px;
+}
+.auto-release-badge.warning { background:#fff3cd; color:#856404; }
+.ppt { background:#fef0e8; color:#d24726; }
+.doc-type-icon.ppt { color:#d24726; }
+</style>
+
+<script src="js/main.js"></script>
+</body>
+</html>

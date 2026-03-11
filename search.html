@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced Search – DMS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo"><i class="fab fa-microsoft"></i><span>SharePoint VSS</span></div>
+    <div class="topnav-search">
+      <i class="fas fa-search"></i>
+      <input type="text" placeholder="Search documents..." id="globalSearch" autocomplete="off">
+      <span class="search-shortcut">Ctrl+K</span>
+    </div>
+    <div class="topnav-actions">
+      <button class="nav-icon-btn"><i class="fas fa-bell"></i><span class="badge">3</span></button>
+      <div class="user-avatar">JS</div>
+    </div>
+  </div>
+</nav>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-toggle">
+      <button class="toggle-btn" id="sidebarToggle" title="Collapse / Expand"><i class="fas fa-chevron-left"></i></button>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="index.html" class="nav-item" data-label="Home"><i class="fas fa-home"></i><span>Home</span></a>
+      <a href="dashboard.html" class="nav-item" data-label="Dashboard"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
+      <a href="portal.html" class="nav-item" data-label="My Portal"><i class="fas fa-user-circle"></i><span>My Portal</span></a>
+      <a href="search.html" class="nav-item active" data-label="Advanced Search"><i class="fas fa-search-plus"></i><span>Advanced Search</span></a>
+      <a href="library.html" class="nav-item" data-label="Document Library"><i class="fas fa-folder-open"></i><span>Document Library</span></a>
+      <a href="workflow.html" class="nav-item" data-label="Signatures & Approvals"><i class="fas fa-signature"></i><span>Signatures & Approvals</span></a>
+      <a href="reports.html" class="nav-item" data-label="Reports"><i class="fas fa-chart-bar"></i><span>Reports</span></a>
+      <div class="nav-divider"></div>
+      <a href="guide.html" class="nav-item" data-label="SharePoint Guide"><i class="fas fa-book"></i><span>SharePoint Guide</span></a>
+    </nav>
+  </aside>
+  <main class="main-content" id="mainContent">
+
+    <div class="page-header">
+      <h2><i class="fas fa-search-plus" style="color:var(--accent)"></i> Advanced Document Search</h2>
+    </div>
+
+    <!-- Search Panel -->
+    <div class="search-panel">
+      <div class="search-main">
+        <input type="text" id="searchInput" placeholder='Search by keyword, filename, content...' value="">
+        <button class="btn-primary" style="padding:11px 24px" onclick="runSearch()"><i class="fas fa-search"></i> Search</button>
+        <button class="btn-cancel" onclick="clearSearch()"><i class="fas fa-times"></i> Clear</button>
+      </div>
+
+      <!-- Metadata Filters -->
+      <div class="filter-grid">
+        <div class="form-group" style="margin:0">
+          <label><i class="fas fa-sitemap"></i> Department</label>
+          <select class="filter-select" style="width:100%">
+            <option value="">All Departments</option>
+            <option>Engineering</option><option>Finance</option><option>Legal</option>
+            <option>Marketing</option><option>IT</option><option>HR</option><option>Procurement</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin:0">
+          <label><i class="fas fa-project-diagram"></i> Project</label>
+          <input type="text" placeholder="Project name..." style="padding:8px 12px;border:1.5px solid #dde;border-radius:8px;font-family:Inter;font-size:0.85rem;width:100%">
+        </div>
+        <div class="form-group" style="margin:0">
+          <label><i class="fas fa-user"></i> Client</label>
+          <input type="text" placeholder="Client name..." style="padding:8px 12px;border:1.5px solid #dde;border-radius:8px;font-family:Inter;font-size:0.85rem;width:100%">
+        </div>
+        <div class="form-group" style="margin:0">
+          <label><i class="fas fa-box"></i> Product</label>
+          <input type="text" placeholder="Product name..." style="padding:8px 12px;border:1.5px solid #dde;border-radius:8px;font-family:Inter;font-size:0.85rem;width:100%">
+        </div>
+        <div class="form-group" style="margin:0">
+          <label><i class="fas fa-file"></i> File Type</label>
+          <select class="filter-select" style="width:100%">
+            <option value="">All Types</option>
+            <option>PDF</option><option>Word (.docx)</option><option>Excel (.xlsx)</option>
+            <option>PowerPoint (.pptx)</option><option>Image</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin:0">
+          <label><i class="fas fa-calendar"></i> Date Range</label>
+          <select class="filter-select" style="width:100%">
+            <option>Any Time</option>
+            <option>Last 7 Days</option><option>Last Month</option>
+            <option>Last 3 Months</option><option>Last Year</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Tag Cloud -->
+      <div style="margin-top:14px">
+        <label style="font-size:0.78rem;font-weight:600;color:#888;display:block;margin-bottom:8px"><i class="fas fa-tags"></i> Filter by Tags (Term Store)</label>
+        <div class="tag-cloud">
+          <span class="tag active" onclick="toggleTag(this)">Contract</span>
+          <span class="tag" onclick="toggleTag(this)">Legal</span>
+          <span class="tag" onclick="toggleTag(this)">Finance</span>
+          <span class="tag" onclick="toggleTag(this)">Technical</span>
+          <span class="tag" onclick="toggleTag(this)">Approved</span>
+          <span class="tag" onclick="toggleTag(this)">Draft</span>
+          <span class="tag" onclick="toggleTag(this)">Confidential</span>
+          <span class="tag" onclick="toggleTag(this)">Policy</span>
+          <span class="tag" onclick="toggleTag(this)">Q4-2024</span>
+          <span class="tag" onclick="toggleTag(this)">NDA</span>
+          <span class="tag" onclick="toggleTag(this)">Procurement</span>
+          <span class="tag" onclick="toggleTag(this)">Security</span>
+          <span class="tag" onclick="toggleTag(this)">HR</span>
+          <span class="tag" onclick="toggleTag(this)">Budget</span>
+          <button class="tag" style="border:1.5px dashed #aaa;background:white;color:#888" onclick="showModal('addTagModal')"><i class="fas fa-plus"></i> Add Tag</button>
+        </div>
+      </div>
+
+      <div class="alert alert-info" style="margin-top:14px;margin-bottom:0">
+        <i class="fas fa-info-circle"></i>
+        <span><strong>Folder Metadata Inheritance:</strong> Tags assigned to a folder automatically apply to all files inside it — no manual tagging required per file.</span>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div class="card">
+      <div class="card-header">
+        <h3><i class="fas fa-list"></i> Search Results <span style="font-weight:400;color:#999;font-size:0.85rem">(12 results found)</span></h3>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span style="font-size:0.8rem;color:#999">Sort by:</span>
+          <select class="filter-select"><option>Relevance</option><option>Date Modified</option><option>Name</option><option>Department</option></select>
+          <button class="tbl-btn outline"><i class="fas fa-th-large"></i></button>
+          <button class="tbl-btn outline"><i class="fas fa-list"></i></button>
+        </div>
+      </div>
+      <div class="search-results" id="searchResults">
+        <!-- Result cards -->
+        <div class="result-card">
+          <div class="result-icon pdf"><i class="fas fa-file-pdf"></i></div>
+          <div class="result-body">
+            <div class="result-name">Partnership Agreement – J-Comm Ltd. 2024.pdf <span class="status-badge signed" style="margin-left:8px">Completed</span></div>
+            <div class="result-path"><i class="fas fa-folder"></i> Legal / Contracts / 2024</div>
+            <div class="result-meta">
+              <span><i class="fas fa-user"></i> Dana Cohen</span>
+              <span><i class="fas fa-clock"></i> Modified: 05/03/2024</span>
+              <span><i class="fas fa-project-diagram"></i> Project: J-Comm</span>
+              <span><i class="fas fa-building"></i> Client: J-Comm Ltd.</span>
+            </div>
+            <div class="result-tags">
+              <span class="tag active" style="padding:3px 8px;font-size:0.7rem">Contract</span>
+              <span class="tag active" style="padding:3px 8px;font-size:0.7rem">Legal</span>
+              <span class="tag active" style="padding:3px 8px;font-size:0.7rem">Confidential</span>
+              <span class="tag" style="padding:3px 8px;font-size:0.7rem;background:#f0f0f0;color:#888">📁 Inherited from folder</span>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <button class="tbl-btn">Open</button>
+            <button class="tbl-btn outline">Share</button>
+          </div>
+        </div>
+        <div class="result-card">
+          <div class="result-icon word"><i class="fas fa-file-word"></i></div>
+          <div class="result-body">
+            <div class="result-name">Service Agreement – Client ABC.docx <span class="status-badge inprogress" style="margin-left:8px">In Review</span></div>
+            <div class="result-path"><i class="fas fa-folder"></i> Legal / Service Agreements</div>
+            <div class="result-meta">
+              <span><i class="fas fa-user"></i> John Smith</span>
+              <span><i class="fas fa-clock"></i> Modified: 08/03/2024</span>
+              <span><i class="fas fa-project-diagram"></i> Project: ABG-2024</span>
+              <span><i class="fas fa-building"></i> Client: ABC Corp</span>
+            </div>
+            <div class="result-tags">
+              <span class="tag active" style="padding:3px 8px;font-size:0.7rem">Contract</span>
+              <span class="tag active" style="padding:3px 8px;font-size:0.7rem">Draft</span>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <button class="tbl-btn">Open</button>
+            <button class="tbl-btn outline">Share</button>
+          </div>
+        </div>
+        <div class="result-card">
+          <div class="result-icon pdf"><i class="fas fa-file-pdf"></i></div>
+          <div class="result-body">
+            <div class="result-name">Vendor Contract – Supplier XYZ.pdf</div>
+            <div class="result-path"><i class="fas fa-folder"></i> Procurement / Contracts / 2024</div>
+            <div class="result-meta">
+              <span><i class="fas fa-user"></i> Procurement Team</span>
+              <span><i class="fas fa-clock"></i> Modified: 01/03/2024</span>
+              <span><i class="fas fa-project-diagram"></i> Internal</span>
+              <span><i class="fas fa-building"></i> Vendor: XYZ Ltd.</span>
+            </div>
+            <div class="result-tags">
+              <span class="tag active" style="padding:3px 8px;font-size:0.7rem">Contract</span>
+              <span class="tag active" style="padding:3px 8px;font-size:0.7rem">Procurement</span>
+              <span class="tag" style="padding:3px 8px;font-size:0.7rem;background:#f0f0f0;color:#888">📁 Inherited from folder</span>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <button class="tbl-btn">Open</button>
+            <button class="tbl-btn outline">Share</button>
+          </div>
+        </div>
+        <div class="result-card">
+          <div class="result-icon excel"><i class="fas fa-file-excel"></i></div>
+          <div class="result-body">
+            <div class="result-name">Q4 Budget Planning.xlsx <span class="status-badge checkout" style="margin-left:8px">Checked Out</span></div>
+            <div class="result-path"><i class="fas fa-folder"></i> Finance / Budget / 2024</div>
+            <div class="result-meta">
+              <span><i class="fas fa-user"></i> John Smith</span>
+              <span><i class="fas fa-clock"></i> Modified: 06/03/2024</span>
+              <span><i class="fas fa-lock"></i> Checked out by: John Smith</span>
+            </div>
+            <div class="result-tags">
+              <span class="tag active" style="padding:3px 8px;font-size:0.7rem">Finance</span>
+              <span class="tag active" style="padding:3px 8px;font-size:0.7rem">Budget</span>
+              <span class="tag active" style="padding:3px 8px;font-size:0.7rem">Q4-2024</span>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <button class="tbl-btn">Open</button>
+            <button class="tbl-btn outline">Share</button>
+          </div>
+        </div>
+      </div>
+      <div class="table-footer">
+        <small style="color:#999">Showing 4 of 12 results for "Contract"</small>
+        <div class="pagination">
+          <button class="page-btn active">1</button>
+          <button class="page-btn">2</button>
+          <button class="page-btn">3</button>
+          <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Add Tag Modal -->
+<div class="modal-overlay" id="addTagModal" onclick="closeModal('addTagModal')">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3><i class="fas fa-tag"></i> Add New Tag – Term Store</h3>
+      <button onclick="closeModal('addTagModal')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="alert alert-info" style="margin-bottom:14px">
+        <i class="fas fa-info-circle"></i>
+        Tags are managed via <strong>SharePoint Term Store</strong>. New tags must be approved by a Term Store Administrator.
+      </div>
+      <div class="form-group">
+        <label>Tag Name</label>
+        <input type="text" placeholder="Enter new tag name...">
+      </div>
+      <div class="form-group">
+        <label>Term Group</label>
+        <select><option>Document Types</option><option>Departments</option><option>Projects</option><option>Status</option><option>Clients</option></select>
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea placeholder="Describe when this tag should be used..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal('addTagModal')">Cancel</button>
+      <button class="btn-primary" onclick="closeModal('addTagModal');showToast('Tag submitted for admin approval','info')">Submit Request</button>
+    </div>
+  </div>
+</div>
+
+<style>
+.filter-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.result-card {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid #e8edf8;
+  margin-bottom: 10px;
+  background: #fafbff;
+  transition: box-shadow 0.2s;
+}
+.result-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+.result-icon {
+  width: 42px; height: 42px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+.result-icon.pdf { background: #fce8e8; color: #cc0000; }
+.result-icon.word { background: #e8f0fc; color: #2b579a; }
+.result-icon.excel { background: #e8f6e8; color: #107c10; }
+.result-body { flex: 1; }
+.result-name { font-size: 0.9rem; font-weight: 600; color: #1a1a2e; margin-bottom: 4px; }
+.result-path { font-size: 0.76rem; color: #888; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.result-meta { display: flex; gap: 16px; flex-wrap: wrap; font-size: 0.76rem; color: #999; margin-bottom: 8px; }
+.result-meta span { display: flex; align-items: center; gap: 5px; }
+.result-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+@media (max-width: 700px) { .filter-grid { grid-template-columns: 1fr 1fr; } }
+</style>
+
+<script src="js/main.js"></script>
+<script>
+function toggleTag(el) {
+  el.classList.toggle('active');
+}
+function runSearch() {
+  showToast('Searching documents...', 'info');
+}
+function clearSearch() {
+  document.getElementById('searchInput').value = '';
+  document.querySelectorAll('.tag.active').forEach(t => t.classList.remove('active'));
+}
+// Pre-fill search from URL params
+const urlParams = new URLSearchParams(window.location.search);
+const q = urlParams.get('q');
+if (q) document.getElementById('searchInput').value = q;
+</script>
+</body>
+</html>
