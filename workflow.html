@@ -43,61 +43,840 @@
   <main class="main-content" id="mainContent">
 
     <div class="page-header">
-      <h2><i class="fas fa-signature" style="color:var(--accent)"></i> Signatures & Approval Workflows</h2>
-      <button class="qa-btn primary" onclick="showModal('newWorkflowModal')"><i class="fas fa-plus"></i> New Signature Request</button>
+      <h2><i class="fas fa-signature" style="color:var(--accent)"></i> Signatures & Approvals</h2>
+      <button class="qa-btn primary" onclick="showModal('sendForSignatureModal')"><i class="fas fa-paper-plane"></i> Send for Signature</button>
     </div>
 
-    <!-- Active Workflow Detail Card -->
-    <div class="card" style="margin-bottom:16px;border-left:4px solid #0078d4">
-      <div class="card-header">
-        <h3><i class="fas fa-file-pdf" style="color:#cc0000"></i> Partnership Agreement – J-Comm Ltd. 2024.pdf</h3>
-        <div style="display:flex;gap:8px;align-items:center">
-          <span class="priority-chip p1"><i class="fas fa-fire"></i> Priority 1</span>
-          <span class="status-badge inprogress">In Progress</span>
+    <!-- Tabs -->
+    <div class="tabs" style="margin-bottom:20px">
+      <button class="tab-btn active" onclick="switchTab('pending')">Pending My Signature <span class="tab-count">3</span></button>
+      <button class="tab-btn" onclick="switchTab('sent')">Sent by Me <span class="tab-count">5</span></button>
+      <button class="tab-btn" onclick="switchTab('all')">All Workflows <span class="tab-count">12</span></button>
+    </div>
+
+    <!-- Pending My Signature Tab -->
+    <div id="pendingTab" class="tab-content active">
+      
+      <!-- Signature Request 1 -->
+      <div class="card signature-request" style="margin-bottom:16px">
+        <div class="sig-req-header" onclick="toggleSignatureRequest(this)">
+          <div style="display:flex;align-items:center;gap:12px;flex:1">
+            <i class="fas fa-chevron-right toggle-icon" style="color:#888;transition:transform 0.2s"></i>
+            <div>
+              <div style="font-weight:600;font-size:0.95rem">Hardware Contract - SpaceX Project</div>
+              <div style="font-size:0.8rem;color:#666;margin-top:2px">From: Lisa Park • 5 documents • Due: 15/03/2024</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <span class="priority-chip" style="background:#dc3545;color:white;padding:3px 8px;border-radius:4px;font-size:0.75rem"><i class="fas fa-exclamation-circle"></i> High Priority</span>
+            <span class="status-badge pending">Awaiting Signature</span>
+          </div>
+        </div>
+        
+        <div class="sig-req-body" style="display:none">
+          <!-- Workflow Timeline -->
+          <div style="margin:16px 0;padding:16px;background:#f8f9fa;border-radius:6px">
+            <div style="font-size:0.8rem;font-weight:600;color:#666;margin-bottom:12px">SIGNATURE WORKFLOW</div>
+            <div class="workflow-steps">
+              <div class="step done">
+                <div class="step-circle"><i class="fas fa-check"></i></div>
+                <div class="step-label">Lisa Park<br><span style="font-size:0.7rem;color:#888">Initiated</span></div>
+              </div>
+              <div class="step active">
+                <div class="step-circle"><i class="fas fa-pen"></i></div>
+                <div class="step-label">Ofer Hoffman (You)<br><span style="font-size:0.7rem;color:#0078d4">Your Turn</span></div>
+              </div>
+              <div class="step">
+                <div class="step-circle">3</div>
+                <div class="step-label">CFO Approval<br><span style="font-size:0.7rem;color:#888">Pending</span></div>
+              </div>
+              <div class="step">
+                <div class="step-circle"><i class="fas fa-flag-checkered"></i></div>
+                <div class="step-label">Complete</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Documents List -->
+          <div style="margin:16px 0">
+            <div style="font-size:0.8rem;font-weight:600;color:#666;margin-bottom:10px">DOCUMENTS TO SIGN (5)</div>
+            <div class="doc-sign-list">
+              <div class="doc-sign-item">
+                <input type="checkbox" id="doc1" onchange="updateSignAllButton()">
+                <label for="doc1">
+                  <i class="fas fa-file-pdf" style="color:#cc0000"></i>
+                  <span>Hardware_Specifications_v2.1.pdf</span>
+                  <span class="doc-size">2.4 MB</span>
+                </label>
+                <button class="btn-sm" onclick="previewDocument('doc1')"><i class="fas fa-eye"></i> Preview</button>
+                <button class="btn-sm primary" onclick="signDocument('doc1')"><i class="fas fa-signature"></i> Sign</button>
+              </div>
+              <div class="doc-sign-item signed">
+                <i class="fas fa-check-circle" style="color:#28a745"></i>
+                <label>
+                  <i class="fas fa-file-word" style="color:#2b579a"></i>
+                  <span>Contract_Terms.docx</span>
+                  <span class="doc-size">156 KB</span>
+                </label>
+                <span style="color:#28a745;font-size:0.8rem;font-weight:600">✓ Signed</span>
+              </div>
+              <div class="doc-sign-item">
+                <input type="checkbox" id="doc3" onchange="updateSignAllButton()">
+                <label for="doc3">
+                  <i class="fas fa-file-excel" style="color:#217346"></i>
+                  <span>Budget_Breakdown_Q4.xlsx</span>
+                  <span class="doc-size">890 KB</span>
+                </label>
+                <button class="btn-sm" onclick="previewDocument('doc3')"><i class="fas fa-eye"></i> Preview</button>
+                <button class="btn-sm primary" onclick="signDocument('doc3')"><i class="fas fa-signature"></i> Sign</button>
+              </div>
+              <div class="doc-sign-item">
+                <input type="checkbox" id="doc4" onchange="updateSignAllButton()">
+                <label for="doc4">
+                  <i class="fas fa-file-pdf" style="color:#cc0000"></i>
+                  <span>Legal_Compliance_Report.pdf</span>
+                  <span class="doc-size">1.1 MB</span>
+                </label>
+                <button class="btn-sm" onclick="previewDocument('doc4')"><i class="fas fa-eye"></i> Preview</button>
+                <button class="btn-sm primary" onclick="signDocument('doc4')"><i class="fas fa-signature"></i> Sign</button>
+              </div>
+              <div class="doc-sign-item">
+                <input type="checkbox" id="doc5" onchange="updateSignAllButton()">
+                <label for="doc5">
+                  <i class="fas fa-file-pdf" style="color:#cc0000"></i>
+                  <span>Risk_Assessment.pdf</span>
+                  <span class="doc-size">3.2 MB</span>
+                </label>
+                <button class="btn-sm" onclick="previewDocument('doc5')"><i class="fas fa-eye"></i> Preview</button>
+                <button class="btn-sm primary" onclick="signDocument('doc5')"><i class="fas fa-signature"></i> Sign</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Comments Section -->
+          <div style="margin:16px 0;padding:12px;background:#fff8e1;border-left:3px solid #ffc107;border-radius:4px">
+            <div style="font-size:0.8rem;font-weight:600;margin-bottom:8px"><i class="fas fa-comment"></i> Comments & Notes</div>
+            <div style="font-size:0.85rem;color:#666;margin-bottom:8px">Lisa Park: "Please review the budget section carefully before signing."</div>
+            <textarea placeholder="Add your comment..." style="width:100%;padding:8px;border:1px solid #ddd;border-radius:4px;font-size:0.85rem;resize:vertical" rows="2"></textarea>
+          </div>
+
+          <!-- Action Buttons -->
+          <div style="display:flex;gap:10px;margin-top:16px;padding-top:16px;border-top:1px solid #e0e0e0">
+            <button class="btn-primary" id="signAllBtn" onclick="signAllDocuments()" disabled><i class="fas fa-check-double"></i> Sign All & Send to Next</button>
+            <button class="qa-btn" onclick="showModal('addDocumentsModal')"><i class="fas fa-plus"></i> Add Documents</button>
+            <button class="qa-btn outline"><i class="fas fa-download"></i> Download All</button>
+            <button class="qa-btn outline" style="color:#dc3545"><i class="fas fa-times-circle"></i> Reject</button>
+          </div>
         </div>
       </div>
 
-      <div class="workflow-meta">
-        <div class="wf-meta-item"><i class="fas fa-user"></i><span><strong>Created by:</strong> Dana Cohen</span></div>
-        <div class="wf-meta-item"><i class="fas fa-calendar"></i><span><strong>Created:</strong> 01/03/2024</span></div>
-        <div class="wf-meta-item"><i class="fas fa-calendar-times"></i><span><strong>Due:</strong> <span class="overdue">08/03/2024</span></span></div>
-        <div class="wf-meta-item"><i class="fas fa-building"></i><span><strong>Department:</strong> Legal</span></div>
-        <div class="wf-meta-item"><i class="fas fa-envelope"></i><span><strong>Notifications:</strong> Daily reminders active</span></div>
+      <!-- Signature Request 2 -->
+      <div class="card signature-request" style="margin-bottom:16px">
+        <div class="sig-req-header" onclick="toggleSignatureRequest(this)">
+          <div style="display:flex;align-items:center;gap:12px;flex:1">
+            <i class="fas fa-chevron-right toggle-icon" style="color:#888;transition:transform 0.2s"></i>
+            <div>
+              <div style="font-weight:600;font-size:0.95rem">Annual Budget Approval</div>
+              <div style="font-size:0.8rem;color:#666;margin-top:2px">From: Tom Williams • 3 documents • Due: 20/03/2024</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <span class="priority-chip" style="background:#ffc107;color:#000;padding:3px 8px;border-radius:4px;font-size:0.75rem"><i class="fas fa-flag"></i> Medium</span>
+            <span class="status-badge inprogress">In Progress</span>
+          </div>
+        </div>
+        
+        <div class="sig-req-body" style="display:none">
+          <p style="color:#666;padding:16px">Click to expand and view documents...</p>
+        </div>
       </div>
 
-      <!-- Workflow Stepper -->
-      <div style="margin:20px 0 8px">
-        <p style="font-size:0.78rem;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:14px">Signature Progress</p>
-        <div class="workflow-steps">
-          <div class="step done">
-            <div class="step-circle"><i class="fas fa-check"></i></div>
-            <div class="step-label">Document Uploaded</div>
+      <!-- Signature Request 3 -->
+      <div class="card signature-request" style="margin-bottom:16px">
+        <div class="sig-req-header" onclick="toggleSignatureRequest(this)">
+          <div style="display:flex;align-items:center;gap:12px;flex:1">
+            <i class="fas fa-chevron-right toggle-icon" style="color:#888;transition:transform 0.2s"></i>
+            <div>
+              <div style="font-weight:600;font-size:0.95rem">Partnership Agreement - Tesla Motors</div>
+              <div style="font-size:0.8rem;color:#666;margin-top:2px">From: Anna Clarke • 2 documents • Due: 25/03/2024</div>
+            </div>
           </div>
-          <div class="step done">
-            <div class="step-circle"><i class="fas fa-check"></i></div>
-            <div class="step-label">Legal Reviewer</div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <span class="priority-chip" style="background:#28a745;color:white;padding:3px 8px;border-radius:4px;font-size:0.75rem"><i class="fas fa-check"></i> Low</span>
+            <span class="status-badge pending">Awaiting Signature</span>
           </div>
-          <div class="step active">
-            <div class="step-circle"><i class="fas fa-pen"></i></div>
-            <div class="step-label">Ofer Hoffman (You)</div>
+        </div>
+        
+        <div class="sig-req-body" style="display:none">
+          <p style="color:#666;padding:16px">Click to expand and view documents...</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Sent by Me Tab -->
+    <div id="sentTab" class="tab-content" style="display:none">
+      <div class="card">
+        <p style="padding:20px;color:#666">Documents sent by you for signatures will appear here...</p>
+      </div>
+    </div>
+
+    <!-- All Workflows Tab -->
+    <div id="allTab" class="tab-content" style="display:none">
+      <div class="card">
+        <p style="padding:20px;color:#666">All signature workflows will appear here...</p>
+      </div>
+    </div>
+
+    <!-- Projects Section -->
+    <div style="margin-top:32px">
+      <h3 style="font-size:1.1rem;margin-bottom:16px"><i class="fas fa-project-diagram"></i> Projects</h3>
+      
+      <!-- Project: SpaceX -->
+      <div class="card project-card" style="margin-bottom:12px">
+        <div class="project-header" onclick="toggleProject(this)">
+          <div style="display:flex;align-items:center;gap:12px;flex:1">
+            <i class="fas fa-chevron-right toggle-icon" style="color:#888;transition:transform 0.2s"></i>
+            <i class="fas fa-rocket" style="color:#0078d4;font-size:1.2rem"></i>
+            <div>
+              <div style="font-weight:600">SpaceX Project</div>
+              <div style="font-size:0.8rem;color:#666">5 forms pending signatures</div>
+            </div>
           </div>
-          <div class="step">
-            <div class="step-circle">4</div>
-            <div class="step-label">CFO Approval</div>
-          </div>
-          <div class="step">
-            <div class="step-circle">5</div>
-            <div class="step-label">CEO Final Sign</div>
-          </div>
-          <div class="step">
-            <div class="step-circle"><i class="fas fa-flag"></i></div>
-            <div class="step-label">Complete</div>
+          <span class="priority-chip" style="background:#dc3545;color:white;padding:4px 10px;border-radius:4px;font-size:0.75rem"><i class="fas fa-fire"></i> High Priority</span>
+        </div>
+        
+        <div class="project-body" style="display:none;padding-top:16px;border-top:1px solid #e0e0e0">
+          <div class="forms-list">
+            <div class="form-item">
+              <i class="fas fa-file-alt" style="color:#0078d4"></i>
+              <span>Hardware Procurement Form</span>
+              <span class="status-badge pending">Pending</span>
+              <button class="btn-sm primary"><i class="fas fa-signature"></i> Sign</button>
+            </div>
+            <div class="form-item">
+              <i class="fas fa-file-alt" style="color:#0078d4"></i>
+              <span>Budget Authorization Form</span>
+              <span class="status-badge pending">Pending</span>
+              <button class="btn-sm primary"><i class="fas fa-signature"></i> Sign</button>
+            </div>
+            <div class="form-item">
+              <i class="fas fa-file-alt" style="color:#0078d4"></i>
+              <span>Change Request Form #245</span>
+              <span class="status-badge pending">Pending</span>
+              <button class="btn-sm primary"><i class="fas fa-signature"></i> Sign</button>
+            </div>
+            <div class="form-item">
+              <i class="fas fa-file-alt" style="color:#0078d4"></i>
+              <span>Risk Assessment Form</span>
+              <span class="status-badge pending">Pending</span>
+              <button class="btn-sm primary"><i class="fas fa-signature"></i> Sign</button>
+            </div>
+            <div class="form-item">
+              <i class="fas fa-file-alt" style="color:#0078d4"></i>
+              <span>Compliance Checklist</span>
+              <span class="status-badge pending">Pending</span>
+              <button class="btn-sm primary"><i class="fas fa-signature"></i> Sign</button>
+            </div>
           </div>
         </div>
       </div>
 
-      <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
-        <button class="btn-primary" onclick="showModal('signModal')"><i class="fas fa-signature"></i> Sign Document</button>
+      <!-- Project: Tesla -->
+      <div class="card project-card" style="margin-bottom:12px">
+        <div class="project-header" onclick="toggleProject(this)">
+          <div style="display:flex;align-items:center;gap:12px;flex:1">
+            <i class="fas fa-chevron-right toggle-icon" style="color:#888;transition:transform 0.2s"></i>
+            <i class="fas fa-car-battery" style="color:#e82127;font-size:1.2rem"></i>
+            <div>
+              <div style="font-weight:600">Tesla Project</div>
+              <div style="font-size:0.8rem;color:#666">3 forms pending signatures</div>
+            </div>
+          </div>
+          <span class="priority-chip" style="background:#ffc107;color:#000;padding:4px 10px;border-radius:4px;font-size:0.75rem"><i class="fas fa-flag"></i> Medium Priority</span>
+        </div>
+        
+        <div class="project-body" style="display:none;padding-top:16px;border-top:1px solid #e0e0e0">
+          <div class="forms-list">
+            <div class="form-item">
+              <i class="fas fa-file-alt" style="color:#e82127"></i>
+              <span>Engineering Review Form</span>
+              <span class="status-badge pending">Pending</span>
+              <button class="btn-sm primary"><i class="fas fa-signature"></i> Sign</button>
+            </div>
+            <div class="form-item">
+              <i class="fas fa-file-alt" style="color:#e82127"></i>
+              <span>Quality Assurance Form</span>
+              <span class="status-badge pending">Pending</span>
+              <button class="btn-sm primary"><i class="fas fa-signature"></i> Sign</button>
+            </div>
+            <div class="form-item">
+              <i class="fas fa-file-alt" style="color:#e82127"></i>
+              <span>Safety Compliance Form</span>
+              <span class="status-badge pending">Pending</span>
+              <button class="btn-sm primary"><i class="fas fa-signature"></i> Sign</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+<!-- Send for Signature Modal -->
+<div id="sendForSignatureModal" class="modal" onclick="if(event.target===this) closeModal('sendForSignatureModal')">
+  <div class="modal-content" style="max-width:700px" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3><i class="fas fa-paper-plane"></i> Send Documents for Signature</h3>
+      <button class="modal-close" onclick="closeModal('sendForSignatureModal')">&times;</button>
+    </div>
+    <div class="modal-body">
+      
+      <!-- Step 1: Select Documents -->
+      <div style="margin-bottom:20px">
+        <label style="font-weight:600;margin-bottom:8px;display:block">Select Documents</label>
+        <div class="doc-select-list" style="max-height:250px;overflow-y:auto;border:1px solid #e0e0e0;border-radius:6px;padding:8px">
+          <div class="doc-select-item">
+            <input type="checkbox" id="selDoc1">
+            <label for="selDoc1">
+              <i class="fas fa-file-pdf" style="color:#cc0000"></i>
+              <span>Hardware_Specifications_v2.1.pdf</span>
+            </label>
+          </div>
+          <div class="doc-select-item">
+            <input type="checkbox" id="selDoc2">
+            <label for="selDoc2">
+              <i class="fas fa-file-word" style="color:#2b579a"></i>
+              <span>Contract_Terms.docx</span>
+            </label>
+          </div>
+          <div class="doc-select-item">
+            <input type="checkbox" id="selDoc3">
+            <label for="selDoc3">
+              <i class="fas fa-file-excel" style="color:#217346"></i>
+              <span>Budget_Breakdown_Q4.xlsx</span>
+            </label>
+          </div>
+          <div class="doc-select-item">
+            <input type="checkbox" id="selDoc4">
+            <label for="selDoc4">
+              <i class="fas fa-file-pdf" style="color:#cc0000"></i>
+              <span>Legal_Compliance_Report.pdf</span>
+            </label>
+          </div>
+          <div class="doc-select-item">
+            <input type="checkbox" id="selDoc5">
+            <label for="selDoc5">
+              <i class="fas fa-file-pdf" style="color:#cc0000"></i>
+              <span>Risk_Assessment.pdf</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: Select Recipients -->
+      <div style="margin-bottom:20px">
+        <label style="font-weight:600;margin-bottom:8px;display:block">Send to (in order)</label>
+        <div id="recipientsList">
+          <div class="recipient-item">
+            <span class="recipient-order">1</span>
+            <select style="flex:1;padding:8px;border:1px solid #ddd;border-radius:4px">
+              <option value="">Select user...</option>
+              <option value="lisa">Lisa Park</option>
+              <option value="tom">Tom Williams</option>
+              <option value="anna">Anna Clarke</option>
+              <option value="ofer">Ofer Hoffman</option>
+            </select>
+            <button class="btn-sm" onclick="removeRecipient(this)"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+        <button class="qa-btn" onclick="addRecipient()" style="margin-top:8px"><i class="fas fa-plus"></i> Add Recipient</button>
+      </div>
+
+      <!-- Optional: Add Message -->
+      <div style="margin-bottom:20px">
+        <label style="font-weight:600;margin-bottom:8px;display:block">Message (Optional)</label>
+        <textarea placeholder="Add a message for the recipients..." style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;resize:vertical" rows="3"></textarea>
+      </div>
+
+      <!-- Priority & Due Date -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px">
+        <div>
+          <label style="font-weight:600;margin-bottom:8px;display:block">Priority</label>
+          <select style="width:100%;padding:8px;border:1px solid #ddd;border-radius:4px">
+            <option value="high">High</option>
+            <option value="medium" selected>Medium</option>
+            <option value="low">Low</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-weight:600;margin-bottom:8px;display:block">Due Date</label>
+          <input type="date" style="width:100%;padding:8px;border:1px solid #ddd;border-radius:4px">
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal('sendForSignatureModal')">Cancel</button>
+      <button class="btn-primary" onclick="sendForSignature()"><i class="fas fa-paper-plane"></i> Send for Signature</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Documents Modal -->
+<div id="addDocumentsModal" class="modal" onclick="if(event.target===this) closeModal('addDocumentsModal')">
+  <div class="modal-content" style="max-width:600px" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3><i class="fas fa-plus"></i> Add Documents to Request</h3>
+      <button class="modal-close" onclick="closeModal('addDocumentsModal')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p style="color:#666;margin-bottom:16px">Select additional documents to add to this signature request:</p>
+      <div class="doc-select-list" style="max-height:300px;overflow-y:auto;border:1px solid #e0e0e0;border-radius:6px;padding:8px">
+        <div class="doc-select-item">
+          <input type="checkbox" id="addDoc1">
+          <label for="addDoc1">
+            <i class="fas fa-file-pdf" style="color:#cc0000"></i>
+            <span>Addendum_Contract_v1.2.pdf</span>
+          </label>
+        </div>
+        <div class="doc-select-item">
+          <input type="checkbox" id="addDoc2">
+          <label for="addDoc2">
+            <i class="fas fa-file-word" style="color:#2b579a"></i>
+            <span>Supplementary_Terms.docx</span>
+          </label>
+        </div>
+      </div>
+      <div style="margin-top:16px;padding:12px;background:#fff8e1;border-left:3px solid #ffc107;border-radius:4px">
+        <strong>Note:</strong> You can add documents but cannot remove existing ones from this request.
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal('addDocumentsModal')">Cancel</button>
+      <button class="btn-primary" onclick="addDocumentsToRequest()"><i class="fas fa-plus"></i> Add Documents</button>
+    </div>
+  </div>
+</div>
+
+<style>
+.tabs {
+  display: flex;
+  gap: 8px;
+  border-bottom: 2px solid #e0e0e0;
+}
+.tab-btn {
+  padding: 10px 20px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 500;
+  color: #666;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  transition: all 0.2s;
+}
+.tab-btn:hover {
+  color: var(--accent);
+  background: #f8f9fa;
+}
+.tab-btn.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+.tab-count {
+  background: #0078d4;
+  color: white;
+  padding: 2px 7px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  margin-left: 6px;
+}
+.tab-btn.active .tab-count {
+  background: var(--accent);
+}
+.tab-content {
+  display: none;
+}
+.tab-content.active {
+  display: block;
+}
+
+.signature-request {
+  transition: all 0.2s;
+}
+.signature-request:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.sig-req-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  cursor: pointer;
+  user-select: none;
+}
+.sig-req-header:hover {
+  background: #f8f9fa;
+}
+.sig-req-body {
+  padding: 0 16px 16px;
+}
+.signature-request .toggle-icon {
+  transition: transform 0.2s;
+}
+.signature-request.expanded .toggle-icon {
+  transform: rotate(90deg);
+}
+
+.doc-sign-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.doc-sign-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+.doc-sign-item:hover {
+  background: #fff;
+  border-color: var(--accent);
+}
+.doc-sign-item.signed {
+  background: #f0f8f4;
+  border-color: #28a745;
+}
+.doc-sign-item label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  cursor: pointer;
+}
+.doc-sign-item .doc-size {
+  color: #888;
+  font-size: 0.75rem;
+  margin-left: auto;
+}
+.btn-sm {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s;
+}
+.btn-sm:hover {
+  background: #f8f9fa;
+  border-color: #999;
+}
+.btn-sm.primary {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+.btn-sm.primary:hover {
+  background: #005a9e;
+}
+
+.workflow-steps {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  position: relative;
+}
+.step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  width: 100%;
+  height: 2px;
+  background: #e0e0e0;
+  z-index: 0;
+}
+.step.done:not(:last-child)::after {
+  background: #28a745;
+}
+.step.active:not(:last-child)::after {
+  background: linear-gradient(to right, #28a745, #e0e0e0);
+}
+.step-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #e0e0e0;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.85rem;
+  z-index: 1;
+  position: relative;
+}
+.step.done .step-circle {
+  background: #28a745;
+  color: white;
+}
+.step.active .step-circle {
+  background: var(--accent);
+  color: white;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0,120,212,0.7); }
+  50% { box-shadow: 0 0 0 10px rgba(0,120,212,0); }
+}
+.step-label {
+  margin-top: 8px;
+  font-size: 0.75rem;
+  text-align: center;
+  color: #666;
+  max-width: 100px;
+}
+
+.project-card {
+  transition: all 0.2s;
+}
+.project-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.project-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  cursor: pointer;
+  user-select: none;
+}
+.project-header:hover {
+  background: #f8f9fa;
+}
+.project-body {
+  padding: 0 16px 16px;
+}
+.project-card .toggle-icon {
+  transition: transform 0.2s;
+}
+.project-card.expanded .toggle-icon {
+  transform: rotate(90deg);
+}
+
+.forms-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.form-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  background: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+.form-item:hover {
+  background: #fff;
+  border-color: var(--accent);
+}
+.form-item span:first-of-type {
+  flex: 1;
+}
+
+.doc-select-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.doc-select-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+.doc-select-item:hover {
+  background: #f0f0f0;
+}
+.doc-select-item label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  cursor: pointer;
+}
+
+.recipient-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.recipient-order {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+</style>
+
+<script>
+function toggleSignatureRequest(header) {
+  const card = header.parentElement;
+  const body = card.querySelector('.sig-req-body');
+  const isExpanded = card.classList.contains('expanded');
+  
+  // Close all other signature requests
+  document.querySelectorAll('.signature-request').forEach(req => {
+    req.classList.remove('expanded');
+    req.querySelector('.sig-req-body').style.display = 'none';
+  });
+  
+  if (!isExpanded) {
+    card.classList.add('expanded');
+    body.style.display = 'block';
+  }
+}
+
+function toggleProject(header) {
+  const card = header.parentElement;
+  const body = card.querySelector('.project-body');
+  const isExpanded = card.classList.contains('expanded');
+  
+  if (isExpanded) {
+    card.classList.remove('expanded');
+    body.style.display = 'none';
+  } else {
+    card.classList.add('expanded');
+    body.style.display = 'block';
+  }
+}
+
+function switchTab(tabName) {
+  // Hide all tabs
+  document.querySelectorAll('.tab-content').forEach(tab => {
+    tab.classList.remove('active');
+    tab.style.display = 'none';
+  });
+  
+  // Remove active from all buttons
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  
+  // Show selected tab
+  const tabs = {
+    'pending': 'pendingTab',
+    'sent': 'sentTab',
+    'all': 'allTab'
+  };
+  
+  const tabContent = document.getElementById(tabs[tabName]);
+  if (tabContent) {
+    tabContent.classList.add('active');
+    tabContent.style.display = 'block';
+  }
+  
+  // Activate button
+  event.target.classList.add('active');
+}
+
+function updateSignAllButton() {
+  const checkboxes = document.querySelectorAll('.doc-sign-item input[type="checkbox"]');
+  const signAllBtn = document.getElementById('signAllBtn');
+  const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
+  signAllBtn.disabled = !anyChecked;
+}
+
+function signDocument(docId) {
+  showToast('Document signed successfully!', 'success');
+  const docItem = document.querySelector(`#${docId}`).closest('.doc-sign-item');
+  docItem.classList.add('signed');
+  docItem.innerHTML = `
+    <i class="fas fa-check-circle" style="color:#28a745"></i>
+    <label>
+      ${docItem.querySelector('label').innerHTML}
+    </label>
+    <span style="color:#28a745;font-size:0.8rem;font-weight:600">✓ Signed</span>
+  `;
+}
+
+function previewDocument(docId) {
+  showToast('Opening document preview...', 'info');
+}
+
+function signAllDocuments() {
+  showToast('All documents signed! Sending to next approver...', 'success');
+  setTimeout(() => {
+    showToast('Sent to CFO for approval', 'success');
+  }, 1500);
+}
+
+function addRecipient() {
+  const list = document.getElementById('recipientsList');
+  const count = list.children.length + 1;
+  const item = document.createElement('div');
+  item.className = 'recipient-item';
+  item.innerHTML = `
+    <span class="recipient-order">${count}</span>
+    <select style="flex:1;padding:8px;border:1px solid #ddd;border-radius:4px">
+      <option value="">Select user...</option>
+      <option value="lisa">Lisa Park</option>
+      <option value="tom">Tom Williams</option>
+      <option value="anna">Anna Clarke</option>
+      <option value="ofer">Ofer Hoffman</option>
+    </select>
+    <button class="btn-sm" onclick="removeRecipient(this)"><i class="fas fa-trash"></i></button>
+  `;
+  list.appendChild(item);
+}
+
+function removeRecipient(btn) {
+  const item = btn.parentElement;
+  item.remove();
+  // Update order numbers
+  document.querySelectorAll('.recipient-order').forEach((el, idx) => {
+    el.textContent = idx + 1;
+  });
+}
+
+function sendForSignature() {
+  showToast('Signature request sent successfully!', 'success');
+  closeModal('sendForSignatureModal');
+}
+
+function addDocumentsToRequest() {
+  showToast('Documents added to signature request', 'success');
+  closeModal('addDocumentsModal');
+}
+</script>
+
+  </main>
+</div>
+
+<script src="js/main.js"></script>
         <button class="btn-cancel" onclick="showModal('rejectModal')"><i class="fas fa-times-circle"></i> Reject & Return</button>
         <button class="btn-cancel" onclick="showModal('commentModal')"><i class="fas fa-comment"></i> Add Comment</button>
         <button class="btn-cancel" onclick="showToast('Workflow reset to step 1','warning')"><i class="fas fa-redo"></i> Restart Workflow</button>
