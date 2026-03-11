@@ -56,55 +56,109 @@
     <div class="breadcrumb">
       <a href="library.html"><i class="fas fa-home"></i> Library Root</a>
       <span>/</span>
-      <a href="#">Engineering</a>
+      <a href="#">Project Template Rev 3.1</a>
       <span>/</span>
-      <span class="current">Project Alpha – Documents</span>
+      <span class="current">Versions</span>
     </div>
 
     <div style="display:grid;grid-template-columns:260px 1fr;gap:16px">
 
       <!-- Folder Tree Sidebar -->
       <div class="card" style="padding:16px">
-        <div style="font-size:0.8rem;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:12px">Folder Structure</div>
-        <div class="lib-tree">
-          <div class="lib-folder open">
-            <span><i class="fas fa-folder-open folder-icon"></i> Engineering</span>
+        <div style="font-size:0.8rem;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:12px">Project Template Structure</div>
+        <div class="lib-tree" id="folderTree">
+          <div class="lib-folder" onclick="toggleFolder(this)" data-folder-id="root">
+            <i class="fas fa-chevron-right toggle-icon"></i>
+            <span><i class="fas fa-folder-open folder-icon"></i> Project Template Rev 3.1</span>
           </div>
-          <div class="lib-folder active" style="padding-left:18px">
-            <span><i class="fas fa-folder-open folder-icon"></i> Project Alpha</span>
+          
+          <!-- Administrative & QA -->
+          <div class="lib-folder collapsed" onclick="toggleFolder(this)" style="padding-left:18px" data-folder-id="admin">
+            <i class="fas fa-chevron-right toggle-icon"></i>
+            <span><i class="fas fa-folder folder-icon"></i> Administrative & QA</span>
           </div>
-          <div class="lib-folder" style="padding-left:36px" onclick="this.classList.toggle('active')">
-            <span><i class="fas fa-folder folder-icon"></i> 01_Base_Documents</span>
+          
+          <!-- Analyses -->
+          <div class="lib-folder collapsed" onclick="toggleFolder(this)" style="padding-left:18px" data-folder-id="analyses">
+            <i class="fas fa-chevron-right toggle-icon"></i>
+            <span><i class="fas fa-folder folder-icon"></i> Analyses</span>
           </div>
-          <div class="lib-folder" style="padding-left:36px">
-            <span><i class="fas fa-folder folder-icon"></i> 02_Contracts</span>
+          
+          <!-- ATP-QTP-FTP -->
+          <div class="lib-folder collapsed" onclick="toggleFolder(this)" style="padding-left:18px" data-folder-id="atp">
+            <i class="fas fa-chevron-right toggle-icon"></i>
+            <span><i class="fas fa-folder folder-icon"></i> ATP-QTP-FTP</span>
           </div>
-          <div class="lib-folder" style="padding-left:36px">
-            <span><i class="fas fa-folder folder-icon"></i> 03_Work_Plans</span>
+          
+          <!-- Correspondence -->
+          <div class="lib-folder" style="padding-left:18px" data-folder-id="corresp" oncontextmenu="showFolderContextMenu(event, this)">
+            <span><i class="fas fa-folder folder-icon"></i> Correspondence</span>
           </div>
-          <div class="lib-folder" style="padding-left:36px">
-            <span><i class="fas fa-folder folder-icon"></i> 04_Correspondence</span>
+          
+          <!-- Electrical Schematics -->
+          <div class="lib-folder collapsed" onclick="toggleFolder(this)" style="padding-left:18px" data-folder-id="electric">
+            <i class="fas fa-chevron-right toggle-icon"></i>
+            <span><i class="fas fa-folder folder-icon"></i> Electrical Schematics</span>
           </div>
-          <div class="lib-folder" style="padding-left:36px">
-            <span><i class="fas fa-folder folder-icon"></i> 05_Reports</span>
+          
+          <!-- LAYOUT -->
+          <div class="lib-folder collapsed" onclick="toggleFolder(this)" style="padding-left:18px" data-folder-id="layout">
+            <i class="fas fa-chevron-right toggle-icon"></i>
+            <span><i class="fas fa-folder folder-icon"></i> LAYOUT</span>
           </div>
-          <div class="lib-folder" style="padding-left:36px">
-            <span><i class="fas fa-folder folder-icon"></i> 06_Approvals_Signatures</span>
+          
+          <!-- Mechanical Drawing -->
+          <div class="lib-folder collapsed" onclick="toggleFolder(this)" style="padding-left:18px" data-folder-id="mech">
+            <i class="fas fa-chevron-right toggle-icon"></i>
+            <span><i class="fas fa-folder folder-icon"></i> Mechanical Drawing</span>
           </div>
-          <div class="lib-folder" style="padding-left:18px">
-            <span><i class="fas fa-folder folder-icon"></i> Project Beta</span>
+          
+          <!-- PCB FAB FILES -->
+          <div class="lib-folder collapsed" onclick="toggleFolder(this)" style="padding-left:18px" data-folder-id="pcb">
+            <i class="fas fa-chevron-right toggle-icon"></i>
+            <span><i class="fas fa-folder folder-icon"></i> PCB FAB FILES</span>
           </div>
-          <div class="lib-folder">
-            <span><i class="fas fa-folder folder-icon"></i> Finance</span>
+          
+          <!-- PLD -->
+          <div class="lib-folder collapsed" onclick="toggleFolder(this)" style="padding-left:18px" data-folder-id="pld">
+            <i class="fas fa-chevron-right toggle-icon"></i>
+            <span><i class="fas fa-folder folder-icon"></i> PLD</span>
           </div>
-          <div class="lib-folder">
-            <span><i class="fas fa-folder folder-icon"></i> Legal</span>
+          
+          <!-- Versions - NEW! -->
+          <div class="lib-folder active" onclick="toggleFolder(this)" style="padding-left:18px" data-folder-id="versions">
+            <i class="fas fa-chevron-down toggle-icon"></i>
+            <span><i class="fas fa-folder-open folder-icon"></i> Versions</span>
           </div>
-          <div class="lib-folder">
-            <span><i class="fas fa-folder folder-icon"></i> Marketing</span>
+          <div class="lib-folder" style="padding-left:36px" data-folder-id="v1.1" oncontextmenu="showFolderContextMenu(event, this)">
+            <span><i class="fas fa-folder folder-icon"></i> 1.1</span>
           </div>
-          <div class="lib-folder">
-            <span><i class="fas fa-folder folder-icon"></i> HR</span>
+          <div class="lib-folder" style="padding-left:36px" data-folder-id="v1.2" oncontextmenu="showFolderContextMenu(event, this)">
+            <span><i class="fas fa-folder folder-icon"></i> 1.2</span>
+          </div>
+          <div class="lib-folder" style="padding-left:36px" data-folder-id="v1.3" oncontextmenu="showFolderContextMenu(event, this)">
+            <span><i class="fas fa-folder folder-icon"></i> 1.3</span>
+          </div>
+          <div class="lib-folder" style="padding-left:36px" data-folder-id="v1.4" oncontextmenu="showFolderContextMenu(event, this)">
+            <span><i class="fas fa-folder folder-icon"></i> 1.4</span>
+          </div>
+          <div class="lib-folder production-version" style="padding-left:36px" data-folder-id="v1.5" oncontextmenu="showFolderContextMenu(event, this)">
+            <span>
+              <i class="fas fa-folder folder-icon"></i> 1.5
+              <i class="fas fa-star production-star" title="Production Version"></i>
+            </span>
+          </div>
+          
+          <!-- Product design notes -->
+          <div class="lib-folder collapsed" onclick="toggleFolder(this)" style="padding-left:18px" data-folder-id="design">
+            <i class="fas fa-chevron-right toggle-icon"></i>
+            <span><i class="fas fa-folder folder-icon"></i> Product design notes</span>
+          </div>
+          
+          <!-- PRODUCTION DOCUMENTATION -->
+          <div class="lib-folder collapsed" onclick="toggleFolder(this)" style="padding-left:18px" data-folder-id="prod-doc">
+            <i class="fas fa-chevron-right toggle-icon"></i>
+            <span><i class="fas fa-folder folder-icon"></i> PRODUCTION DOCUMENTATION</span>
           </div>
         </div>
       </div>
@@ -125,7 +179,7 @@
         <!-- Folder tag info -->
         <div class="alert alert-info" style="margin:10px 16px;margin-bottom:0">
           <i class="fas fa-tags"></i>
-          <span>Folder tags: <strong>Engineering</strong>, <strong>Project Alpha</strong>, <strong>Q4-2024</strong> — All files inside inherit these tags automatically.</span>
+          <span>Folder: <strong>Versions</strong> — Contains project version folders. Right-click any version folder to mark it as the Production Version.</span>
         </div>
 
         <div class="table-wrap" style="padding:0 0 4px">
@@ -419,8 +473,199 @@
 .auto-release-badge.warning { background:#fff3cd; color:#856404; }
 .ppt { background:#fef0e8; color:#d24726; }
 .doc-type-icon.ppt { color:#d24726; }
+
+/* Production Version Styling */
+.production-version {
+  position: relative;
+  background: linear-gradient(135deg, #fff9e6 0%, #fffef7 100%);
+  border: 2px solid #ffc107;
+  box-shadow: 0 0 12px rgba(255, 193, 7, 0.25);
+  font-weight: 600;
+}
+.production-version:hover {
+  background: linear-gradient(135deg, #fff5d6 0%, #fffef7 100%);
+  border-color: #ffb300;
+  box-shadow: 0 0 16px rgba(255, 193, 7, 0.35);
+}
+.production-star {
+  color: #ffc107;
+  margin-left: 8px;
+  animation: starPulse 2s ease-in-out infinite;
+  font-size: 0.9rem;
+}
+@keyframes starPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.15); }
+}
+.toggle-icon {
+  font-size: 0.7rem;
+  transition: transform 0.2s;
+  margin-right: 4px;
+  color: #999;
+}
+.lib-folder.collapsed .toggle-icon {
+  transform: rotate(0deg);
+}
+
+/* Context Menu */
+.context-menu {
+  position: fixed;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  padding: 6px 0;
+  z-index: 10000;
+  min-width: 220px;
+  display: none;
+}
+.context-menu-item {
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #333;
+  transition: background 0.15s;
+}
+.context-menu-item:hover {
+  background: #f0f6ff;
+  color: var(--accent);
+}
+.context-menu-item i {
+  width: 16px;
+  color: #666;
+}
+.context-menu-item:hover i {
+  color: var(--accent);
+}
+.context-menu-divider {
+  height: 1px;
+  background: #eee;
+  margin: 4px 0;
+}
+.context-menu-item.production {
+  color: #ffc107;
+  font-weight: 600;
+}
+.context-menu-item.production:hover {
+  background: #fff9e6;
+}
 </style>
 
+<!-- Context Menu for Folders -->
+<div class="context-menu" id="folderContextMenu">
+  <div class="context-menu-item production" onclick="markAsProduction()">
+    <i class="fas fa-star"></i>
+    <span>Mark as Production Version</span>
+  </div>
+  <div class="context-menu-divider"></div>
+  <div class="context-menu-item" onclick="renameFolder()">
+    <i class="fas fa-edit"></i>
+    <span>Rename</span>
+  </div>
+  <div class="context-menu-item" onclick="copyFolder()">
+    <i class="fas fa-copy"></i>
+    <span>Copy</span>
+  </div>
+  <div class="context-menu-divider"></div>
+  <div class="context-menu-item" onclick="deletFolder()">
+    <i class="fas fa-trash"></i>
+    <span>Delete</span>
+  </div>
+</div>
+
 <script src="js/main.js"></script>
+<script>
+// Global variable to store current context menu target
+let currentContextFolder = null;
+
+// Toggle folder expand/collapse
+function toggleFolder(element) {
+  event.stopPropagation();
+  const icon = element.querySelector('.toggle-icon');
+  if (icon) {
+    if (element.classList.contains('collapsed')) {
+      element.classList.remove('collapsed');
+      icon.classList.remove('fa-chevron-right');
+      icon.classList.add('fa-chevron-down');
+    } else {
+      element.classList.add('collapsed');
+      icon.classList.remove('fa-chevron-down');
+      icon.classList.add('fa-chevron-right');
+    }
+  }
+}
+
+// Show context menu on right-click
+function showFolderContextMenu(event, folder) {
+  event.preventDefault();
+  event.stopPropagation();
+  
+  currentContextFolder = folder;
+  const menu = document.getElementById('folderContextMenu');
+  
+  // Position menu at cursor
+  menu.style.display = 'block';
+  menu.style.left = event.pageX + 'px';
+  menu.style.top = event.pageY + 'px';
+}
+
+// Hide context menu when clicking elsewhere
+document.addEventListener('click', function() {
+  const menu = document.getElementById('folderContextMenu');
+  if (menu) {
+    menu.style.display = 'none';
+  }
+});
+
+// Mark folder as production version
+function markAsProduction() {
+  if (!currentContextFolder) return;
+  
+  // Remove production styling from all version folders
+  document.querySelectorAll('.lib-folder.production-version').forEach(folder => {
+    folder.classList.remove('production-version');
+    const star = folder.querySelector('.production-star');
+    if (star) star.remove();
+  });
+  
+  // Add production styling to selected folder
+  currentContextFolder.classList.add('production-version');
+  const folderSpan = currentContextFolder.querySelector('span');
+  if (!folderSpan.querySelector('.production-star')) {
+    const star = document.createElement('i');
+    star.className = 'fas fa-star production-star';
+    star.title = 'Production Version';
+    folderSpan.appendChild(star);
+  }
+  
+  // Get folder name
+  const folderText = currentContextFolder.textContent.trim();
+  showToast(`Folder "${folderText}" marked as Production Version`, 'success');
+  
+  // Hide menu
+  document.getElementById('folderContextMenu').style.display = 'none';
+}
+
+// Placeholder functions for other context menu actions
+function renameFolder() {
+  showToast('Rename folder feature', 'info');
+  document.getElementById('folderContextMenu').style.display = 'none';
+}
+
+function copyFolder() {
+  showToast('Folder copied', 'success');
+  document.getElementById('folderContextMenu').style.display = 'none';
+}
+
+function deletFolder() {
+  if (confirm('Are you sure you want to delete this folder?')) {
+    showToast('Folder deleted', 'success');
+  }
+  document.getElementById('folderContextMenu').style.display = 'none';
+}
+</script>
 </body>
 </html>
